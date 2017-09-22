@@ -5,13 +5,13 @@
 
 export const environment = {
   production: false,
-  google: 'AIzaSyArZ1d3NhSAxPzCLaT7OOkWZR7_RGQEj74',
+  google: 'AIzaSyBv7e-hUw9fq1vxFCv9j7u-i_YMupAx2es',
   firebase: {
-    apiKey: 'AIzaSyDdbdjEaeVcoXLWD0M0wthiO3YljE_uTX4',
-    authDomain: 'poptart-fitness.firebaseapp.com',
-    databaseURL: 'https://poptart-fitness.firebaseio.com',
-    projectId: 'poptart-fitness',
-    storageBucket: 'poptart-fitness.appspot.com',
-    messagingSenderId: '51132342131'
+    apiKey: 'AIzaSyBv7e-hUw9fq1vxFCv9j7u-i_YMupAx2es',
+    authDomain: 'poptart-fitness-dev.firebaseapp.com',
+    databaseURL: 'https://poptart-fitness-dev.firebaseio.com',
+    projectId: 'poptart-fitness-dev',
+    storageBucket: 'poptart-fitness-dev.appspot.com',
+    messagingSenderId: '565071280454'
   }
 };

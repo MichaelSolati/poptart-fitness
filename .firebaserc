@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "poptart-fitness"
+    "default": "poptart-fitness",
+    "dev": "poptart-fitness-dev"
   }
 }
