@@ -19,9 +19,10 @@
       "tsconfig": "tsconfig.app.json",
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "pop",
+      "serviceWorker": true,
       "styles": [
         "../node_modules/normalizecss/normalize.css",
-        "styles.sass"
+        "styles.scss"
       ],
       "scripts": [
         "../node_modules/hammerjs/hammer.min.js"
@@ -58,7 +59,8 @@
     }
   },
   "defaults": {
-    "styleExt": "sass",
-    "component": {}
+    "styleExt": "scss",
+    "component": {
+    }
   }
 }

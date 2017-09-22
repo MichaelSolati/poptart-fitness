@@ -4,5 +4,14 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  google: 'AIzaSyArZ1d3NhSAxPzCLaT7OOkWZR7_RGQEj74',
+  firebase: {
+    apiKey: 'AIzaSyDdbdjEaeVcoXLWD0M0wthiO3YljE_uTX4',
+    authDomain: 'poptart-fitness.firebaseapp.com',
+    databaseURL: 'https://poptart-fitness.firebaseio.com',
+    projectId: 'poptart-fitness',
+    storageBucket: 'poptart-fitness.appspot.com',
+    messagingSenderId: '51132342131'
+  }
 };
