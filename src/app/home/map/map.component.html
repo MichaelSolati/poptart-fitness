@@ -1,0 +1,4 @@
+<agm-map [latitude]="(coordinates | async)?.lat" [longitude]="(coordinates | async)?.lng" (swipe)="swipe($event)" (centerChange)="centerChange($event)"
+[zoom]="14">
+</agm-map>
+<button id="tracking-button" md-fab (click)="toggleWatch()"><md-icon>{{(updating | async)? 'gps_fixed' : 'gps_off'}}</md-icon></button>

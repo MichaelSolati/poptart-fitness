@@ -22,8 +22,9 @@
       "serviceWorker": true,
       "styles": [
         "../node_modules/normalizecss/normalize.css",
-        "styles.scss",
-        "styles/classes.scss"
+        "styles/classes.scss",
+        "styles/components.scss",
+        "styles.scss"
       ],
       "scripts": [
         "../node_modules/hammerjs/hammer.min.js"
