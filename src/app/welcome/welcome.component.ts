@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { LocationService } from '../core/services';
+import { Observable } from 'rxjs/Observable';
+import { LatLngLiteral } from '@agm/core';
 
 @Component({
   moduleId: module.id,
@@ -7,8 +10,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./welcome.component.scss']
 })
 export class WelcomeComponent implements OnInit {
-  constructor() { }
+  constructor(private _locService: LocationService) { }
 
   ngOnInit() {
+  }
+
+  get coordinates(): Observable<LatLngLiteral> {
+    return this._locService.mapCenter;
   }
 }
