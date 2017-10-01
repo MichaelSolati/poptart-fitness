@@ -1,13 +1,27 @@
-<section fxLayout>
-  <md-card>
-    <md-card-header>
-      <md-card-title>
-        <p>Choose a Service</p>
-      </md-card-title>
-    </md-card-header>
-
-    <div><h6>Google</h6></div>
-    <div><h6>Facebook</h6></div>
-    <div><h6>Twitter</h6></div>
+<section fxLayoutAlign="center center">
+  <md-card fxFlex="70%" fxFlex.md="65%" fxFlex.lg="73%">
+    <md-card-content fxLayout fxLayoutAlign="center center">
+        <div fxFlex="33%" class="text-center padding">
+          <button md-button (click)="signIn('facebook')">
+            <img src="assets/icons/facebook.svg" class="full-size" alt="Facebook Login">
+            <br>
+            Facebook
+        </button>  
+        </div>
+        <div fxFlex="33%" class="text-center padding">
+          <button md-button (click)="signIn('google')">
+            <img src="assets/icons/google.svg" class="full-size" alt="Google Login">
+            <br>
+            Google
+          </button>
+        </div>
+        <div fxFlex="33%" class="text-center padding">
+          <button md-button (click)="signIn('twitter')">
+            <img src="assets/icons/twitter.svg" class="full-size" alt="Twitter Login">
+            <br>
+            Twitter
+          </button>
+        </div>
+      </md-card-content>
   </md-card>
 </section>
