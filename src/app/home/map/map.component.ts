@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { LatLngLiteral } from '@agm/core';
 import 'rxjs/add/operator/first';
 
-import { LocationService } from '../../core/services';
+import { LocationService, PlacesService } from '../../core/services';
 
 @Component({
   moduleId: module.id,
@@ -14,7 +14,7 @@ import { LocationService } from '../../core/services';
 })
 export class MapComponent implements OnInit, OnDestroy {
 
-  constructor(private _ls: LocationService, private _router: Router) { }
+  constructor(private _ls: LocationService, private _ps: PlacesService, private _router: Router) { }
 
   ngOnInit() {
   }
@@ -23,8 +23,16 @@ export class MapComponent implements OnInit, OnDestroy {
     this._ls.updatingStart();
   }
 
-  get coordinates(): Observable<LatLngLiteral> {
+  get coordsMap(): Observable<LatLngLiteral> {
     return this._ls.mapCenter;
+  }
+
+  get coordsUser(): Observable<LatLngLiteral> {
+    return this._ls.coordinates;
+  }
+
+  get nearBy(): Observable<any[]> {
+    return this._ps.nearBy;
   }
 
   get updating(): Observable<boolean> {
