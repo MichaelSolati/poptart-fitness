@@ -626,7 +626,7 @@ var GeoFire = (function () {
     validateGeohash(geohash);
     return {
       ".priority": geohash,
-      "g": geohash,
+      "hash": geohash,
       "l": location
     };
   }
@@ -639,8 +639,8 @@ var GeoFire = (function () {
    * decoding fails.
    */
   function decodeGeoFireObject(geoFireObj) {
-    if (geoFireObj !== null && geoFireObj.hasOwnProperty("l")) {
-      return geoFireObj.l;
+    if (geoFireObj !== null) {
+      return geoFireObj;
     } else {
       throw new Error("Unexpected GeoFire location object encountered: " + JSON.stringify(geoFireObj));
     }
@@ -733,7 +733,7 @@ var GeoFire = (function () {
      * @param {Object} queryState An object storing the current state of the query.
      */
     function _cancelGeohashQuery(query, queryState) {
-      var queryRef = _firebaseRef.orderByChild("g").startAt(query[0]).endAt(query[1]);
+      var queryRef = _firebaseRef.orderByChild("hash").startAt(query[0]).endAt(query[1]);
       queryRef.off("child_added", queryState.childAddedCallback);
       queryRef.off("child_removed", queryState.childRemovedCallback);
       queryRef.off("child_changed", queryState.childChangedCallback);
@@ -960,7 +960,7 @@ var GeoFire = (function () {
         var query = _stringToQuery(toQueryStr);
 
         // Create the Firebase query
-        var firebaseQuery = _firebaseRef.orderByChild("g").startAt(query[0]).endAt(query[1]);
+        var firebaseQuery = _firebaseRef.orderByChild("hash").startAt(query[0]).endAt(query[1]);
 
         // For every new matching geohash, determine if we should fire the "key_entered" event
         var childAddedCallback = firebaseQuery.on("child_added", _childAddedCallback);

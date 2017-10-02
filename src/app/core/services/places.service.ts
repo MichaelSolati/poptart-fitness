@@ -17,7 +17,7 @@ export class PlacesService {
     this._dbRef = this._fbDB.list('places');
     this._geoFire = new GeoFire(this._dbRef.$ref);
     this._ls.mapCenter.subscribe((coords: LatLngLiteral) => {
-      this._geoFetch(coords, 10);
+      this._geoFetch(coords, 8);
     });
   }
 
@@ -26,16 +26,15 @@ export class PlacesService {
   }
 
   private _geoFetch(coords: LatLngLiteral, radius: number): void {
+    const max = 100;
     this._geoFire.query({
       center: [coords.lat, coords.lng],
       radius: radius
     }).on('key_entered', (key: string, result: any) => {
-      let places: any[] = this._nearBy.value;
-      places.unshift({
-        key: key,
-        result: result
-      });
-      if (places.length > 30) { places = places.slice(30); }
+      let places: any[] = [...this._nearBy.value];
+      places.push(result);
+      places = places.filter((a: any, i: number, self: any[]) => self.findIndex((b: any) => b.id === a.id) === i);
+      if (places.length > max) { places = places.slice(places.length - max, places.length); }
       this._nearBy.next(places);
     });
   }
