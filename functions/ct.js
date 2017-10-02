@@ -3,7 +3,7 @@ const admin = require('firebase-admin');
 const Geokit = require('geokit').Geokit;
 const httpRequire = require('request');
 const geokit = new Geokit();
-admin.initializeApp(functions.config().firebase);
+
 
 exports.ct = functions.https.onRequest((request, response) => {
   const places = admin.database().ref('/places');
