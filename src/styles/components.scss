@@ -1,0 +1,23 @@
+agm-map {
+  .gmnoprint,
+  .gm-svpc {
+    display: none !important;
+  }
+}
+
+pop-home-index {
+  md-tab-group {
+    div.mat-tab-body-wrapper {
+      mat-tab-body {
+        min-height: calc(100vh - 113px);
+        height: calc(100vh - 113px);
+        max-height: calc(100vh - 113px);
+        @media (max-width: 600px) and (orientation: portrait) {
+          min-height: calc(100vh - 105px);
+          height: calc(100vh - 105px);
+          max-height: calc(100vh - 105px);
+        }
+      }
+    }
+  }
+}
