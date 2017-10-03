@@ -14,7 +14,8 @@ import {
   MdMenuModule,
   MdSnackBarModule,
   MdDialogModule,
-  MdButtonToggleModule
+  MdButtonToggleModule,
+  MdTabsModule
 } from '@angular/material';
 
 export const MATERIAL: any[] = [
@@ -33,5 +34,6 @@ export const MATERIAL: any[] = [
   MdMenuModule,
   MdSnackBarModule,
   MdDialogModule,
-  MdButtonToggleModule
+  MdButtonToggleModule,
+  MdTabsModule
 ];

@@ -4,6 +4,8 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
+import { SERVICES, LocationService, PlacesService } from './services';
+
 import { environment } from '../../environments/environment';
 
 @NgModule({
@@ -13,9 +15,14 @@ import { environment } from '../../environments/environment';
     AngularFireDatabaseModule,
     AngularFireAuthModule
   ],
+  providers: [
+    ...SERVICES
+  ],
   declarations: []
 })
 export class CoreModule {
+  constructor(private _ls: LocationService, private _ps: PlacesService) { }
+
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: CoreModule
