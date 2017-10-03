@@ -3,20 +3,29 @@ agm-map {
     width: 100vw;
 }
 
-#seperator {
-    background-color: BLACK;
-    height: 3vh;
-    width: 100vw;
+h1 {
+    font-size: 64px;
+    margin: 25px 0px;
 }
 
-#sec1 {
-    height: 25vh;
+h2 {
+    font-size: 32px;
+    //margin: -10px 0px;
 }
 
-#sec2 {
-    height: 32vh;
+h3 {
+    //padding: 1em 0px;
+    font-size: 28px;
 }
 
-#sec3 {
-    height: 30vh;
-}
+// #sec1 {
+//     height: 20vh;
+// }
+
+// #sec2 {
+//     height: 30vh;
+// }
+
+// #sec3 {
+//     height: 30vh;
+// }

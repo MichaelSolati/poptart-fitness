@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MdSnackBar } from '@angular/material';
 
-import { UserService } from '../../core/services'; // << I cant get to this folder?
+import { UserService } from '../../core/services';
 
 @Component({
   moduleId: module.id,
@@ -44,7 +44,7 @@ export class SignInComponent implements OnInit {
             this._snackBar.open(error.message, null, { duration: 3000 });
           } else {
             this._snackBar.open('Welcome ' + success.user.displayName, null, { duration: 3000 });
-            this._router.navigate(['/', 'home']);
+            this._router.navigate(['/', 'profile']);
           }
         });
         break;

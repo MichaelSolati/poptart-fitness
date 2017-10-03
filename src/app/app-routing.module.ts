@@ -8,6 +8,9 @@ const routes: Routes = [{
   path: 'home',
   loadChildren: 'app/home/home.module#HomeModule'
 }, {
+  path: 'profile',
+  loadChildren: 'app/profile/profile.module#ProfileModule'
+}, {
   path: '**',
   redirectTo: '/'
 }];

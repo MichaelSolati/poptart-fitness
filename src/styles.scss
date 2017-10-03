@@ -12,8 +12,8 @@ $warn: mat-palette($mat-red);
 $theme: mat-light-theme($primary, $accent, $warn);
 @include angular-material-theme($theme);
 
-$text: #212121;
-$background: #FAFAFA;
+$text: #881C1C;
+$background: rgb(214, 214, 214);
 $white: #FFFFFF;
 
 body {

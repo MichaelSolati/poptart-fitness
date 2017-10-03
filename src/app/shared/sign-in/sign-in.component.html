@@ -1,22 +1,22 @@
 <section fxLayoutAlign="center center">
-  <md-card fxFlex="70%" fxFlex.md="65%" fxFlex.lg="73%">
-    <md-card-content fxLayout fxLayoutAlign="center center">
-        <div fxFlex="33%" class="text-center padding">
-          <button md-button (click)="signIn('facebook')">
+  <md-card fxFlex="70%" fxFlex.xs="100" fxFlex.sm="100%" fxFlex.md="65%">
+    <md-card-content fxLayout="row" fxLayoutAlign="space-evenly stretch" >
+        <div fxFlex="33%" class="text-center">
+          <button md-button (click)="signIn('facebook')" color="primary">
             <img src="assets/icons/facebook.svg" class="full-size" alt="Facebook Login">
             <br>
             Facebook
         </button>  
         </div>
-        <div fxFlex="33%" class="text-center padding">
-          <button md-button (click)="signIn('google')">
+        <div fxFlex="33%" class="text-center">
+          <button md-button (click)="signIn('google')" color="primary">
             <img src="assets/icons/google.svg" class="full-size" alt="Google Login">
             <br>
             Google
           </button>
         </div>
-        <div fxFlex="33%" class="text-center padding">
-          <button md-button (click)="signIn('twitter')">
+        <div fxFlex="33%" class="text-center">
+          <button md-button (click)="signIn('twitter')" color="primary">
             <img src="assets/icons/twitter.svg" class="full-size" alt="Twitter Login">
             <br>
             Twitter
