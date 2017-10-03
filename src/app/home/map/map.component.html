@@ -1,7 +1,7 @@
 <agm-map [latitude]="(coordsMap | async)?.lat" [longitude]="(coordsMap | async)?.lng" (swipe)="swipe($event)" (centerChange)="centerChange($event)"
   [zoom]="14">
   <agm-marker [latitude]="(coordsUser | async)?.lat" [longitude]="(coordsUser | async)?.lng"></agm-marker>
-  <agm-marker *ngFor="let place of nearBy | async; trackBy: place?.id" (markerClick)="markerClick(place.id)" [latitude]="place.coordinates.lat"
+  <agm-marker *ngFor="let place of nearBy | async" (markerClick)="markerClick(place.id)" [latitude]="place.coordinates.lat"
     [longitude]="place.coordinates.lng"></agm-marker>
 </agm-map>
 <button id="tracking-button" md-fab (click)="toggleWatch()"><md-icon>{{(updating | async)? 'gps_fixed' : 'gps_off'}}</md-icon></button>

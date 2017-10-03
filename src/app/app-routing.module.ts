@@ -5,6 +5,9 @@ const routes: Routes = [{
   path: 'home',
   loadChildren: 'app/home/home.module#HomeModule'
 }, {
+  path: 'place',
+  loadChildren: 'app/place/place.module#PlaceModule'
+}, {
   path: '**',
   redirectTo: '/home'
 }];

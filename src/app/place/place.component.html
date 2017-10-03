@@ -1,0 +1,7 @@
+<md-card (swipeup)="open()" (swipedown)="close()" [class.opened]="opened">
+  <h2 (click)="toggle()">Post Found</h2>
+</md-card>
+
+<agm-map [latitude]="(place | async)?.coordinates.lat" [longitude]="(place | async)?.coordinates.lng" [zoom]="18">
+  <agm-marker [latitude]="(place | async)?.coordinates.lat" [longitude]="(place | async)?.coordinates.lng"></agm-marker>
+</agm-map>

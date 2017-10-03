@@ -25,6 +25,10 @@ export class PlacesService {
     return this._nearBy.asObservable();
   }
 
+  public findById(id: string): Observable<any> {
+    return this._fbDB.object('/places/' + id);
+  }
+
   private _geoFetch(coords: LatLngLiteral, radius: number): void {
     const max = 100;
     this._geoFire.query({
