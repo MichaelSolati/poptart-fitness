@@ -1,0 +1,25 @@
+agm-map {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+}
+
+md-card {
+  position: absolute;
+  width: 25vw;
+  height: calc(100vh - 48px);
+  z-index: 10;
+  transition: height .75s;
+  bottom: 0;
+  @media (max-width: 600px) and (orientation: portrait) {
+    width: calc(100vw - 32px);
+    height: calc(30vh - 48px);
+    bottom: 0;
+    transition: height .75s;
+    &.opened {
+      min-height: calc(30vh - 48px);
+      height: calc(100% - 48px);
+      transition: height .75s;
+    }
+  }
+}
