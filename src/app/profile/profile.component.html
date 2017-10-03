@@ -1,0 +1,21 @@
+<!-- Profile Card -->
+<section fxLayoutAlign="center center">
+  <md-card>
+    <img md-card-image src="" alt="Your profile picture.">
+    <md-card-content>
+      <h1>{{(user|async)?.name}}</h1>
+      <p>Rank: Here</p>
+      <p>Badges: Here</p>
+    </md-card-content>
+  </md-card>
+</section>
+
+<!-- Activities -->
+<section>
+  <md-card>
+    <h1>What are your favorite activities?</h1>
+    <md-chip-list>
+      <!--<md-chip *ngFor="let activity of activites">{{activity.name}}></md-chip>-->
+    </md-chip-list>
+  </md-card>
+</section>

@@ -1,0 +1,17 @@
+<!-- Title -->
+<section id="sec1" class="text-center">
+  <h1>Poptart Fitness</h1>
+  <h2>Discover activities and others around you.</h2>
+</section>
+
+<!-- Middle Description -->
+<section id="sec2">
+  <agm-map [latitude]="(coordinates | async)?.lat" [longitude]="(coordinates | async)?.lng" [zoom]="14"></agm-map>
+</section>
+
+<!-- Signup Button and Stuff -->
+<section id="sec3" class="text-center">
+  <h3>Sign in with any existing Google, Facebook, or Twitter account.</h3>
+  <pop-sign-in></pop-sign-in>
+
+</section>

@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { AgmCoreModule } from '@agm/core';
 
 import { environment } from '../../environments/environment';
+import { SignInComponent } from './sign-in/sign-in.component';
 
 @NgModule({
   imports: [
@@ -17,14 +18,15 @@ import { environment } from '../../environments/environment';
     RouterModule,
     AgmCoreModule.forRoot({
       apiKey: environment.google
-    })
+    }),
   ],
-  declarations: [],
+  declarations: [ SignInComponent ],
   exports: [
     ...MATERIAL,
     FlexLayoutModule,
     ReactiveFormsModule,
-    AgmCoreModule
+    AgmCoreModule,
+    SignInComponent
   ]
 })
 export class SharedModule { }
