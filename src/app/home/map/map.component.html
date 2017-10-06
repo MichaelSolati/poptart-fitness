@@ -4,4 +4,4 @@
   <agm-marker *ngFor="let place of nearBy | async" (markerClick)="markerClick(place.id)" [latitude]="place.coordinates.lat"
     [longitude]="place.coordinates.lng"></agm-marker>
 </agm-map>
-<button id="tracking-button" md-fab (click)="toggleWatch()"><md-icon>{{(updating | async)? 'gps_fixed' : 'gps_off'}}</md-icon></button>
+<button id="tracking-button" mat-fab (click)="toggleWatch()"><mat-icon>{{(updating | async)? 'gps_fixed' : 'gps_off'}}</mat-icon></button>

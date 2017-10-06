@@ -1,21 +1,21 @@
 <!-- Profile Card -->
 <section fxLayoutAlign="center center">
-  <md-card>
-    <img md-card-image src="" alt="Your profile picture.">
-    <md-card-content>
+  <mat-card>
+    <img mat-card-image src="" alt="Your profile picture.">
+    <mat-card-content>
       <h1>{{(user|async)?.name}}</h1>
       <p>Rank: Here</p>
       <p>Badges: Here</p>
-    </md-card-content>
-  </md-card>
+    </mat-card-content>
+  </mat-card>
 </section>
 
 <!-- Activities -->
 <section>
-  <md-card>
+  <mat-card>
     <h1>What are your favorite activities?</h1>
-    <md-chip-list>
-      <!--<md-chip *ngFor="let activity of activites">{{activity.name}}></md-chip>-->
-    </md-chip-list>
-  </md-card>
+    <mat-chip-list>
+      <!--<mat-chip *ngFor="let activity of activites">{{activity.name}}></mat-chip>-->
+    </mat-chip-list>
+  </mat-card>
 </section>
