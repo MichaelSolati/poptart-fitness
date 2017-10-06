@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import { AngularFireDatabase } from 'angularfire2/database';
+import * as firebase from 'firebase';
 import * as GeoFire from '../classes/geofire.js';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
@@ -9,13 +10,13 @@ import { LocationService } from './location.service';
 
 @Injectable()
 export class PlacesService {
-  private _dbRef: FirebaseListObservable<any[]>;
+  private _dbRef: any;
   private _geoFire: any;
   private _nearBy: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
 
   constructor(private _fbDB: AngularFireDatabase, private _ls: LocationService) {
-    this._dbRef = this._fbDB.list('places');
-    this._geoFire = new GeoFire(this._dbRef.$ref);
+    this._dbRef = firebase.database().ref('places');
+    this._geoFire = new GeoFire(this._dbRef);
     this._ls.mapCenter.subscribe((coords: LatLngLiteral) => {
       this._geoFetch(coords, 8);
     });
@@ -26,7 +27,7 @@ export class PlacesService {
   }
 
   public findById(id: string): Observable<any> {
-    return this._fbDB.object('/places/' + id);
+    return this._fbDB.object('/places/' + id).valueChanges();
   }
 
   private _geoFetch(coords: LatLngLiteral, radius: number): void {
