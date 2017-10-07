@@ -1,0 +1,21 @@
+<!-- Profile Card -->
+<section fxLayoutAlign="center center">
+  <mat-card>
+    <img mat-card-image src="" alt="Your profile picture.">
+    <mat-card-content>
+      <h1>{{(user|async)?.name}}</h1>
+      <p>Rank: Here</p>
+      <p>Badges: Here</p>
+    </mat-card-content>
+  </mat-card>
+</section>
+
+<!-- Activities -->
+<section>
+  <mat-card>
+    <h1>What are your favorite activities?</h1>
+    <mat-chip-list>
+      <!--<mat-chip *ngFor="let activity of activites">{{activity.name}}></mat-chip>-->
+    </mat-chip-list>
+  </mat-card>
+</section>

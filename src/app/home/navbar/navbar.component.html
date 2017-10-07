@@ -1,4 +1,18 @@
-<md-toolbar color="primary">
-  <span>Poptart Fitness</span>
-</md-toolbar>
+<mat-toolbar color="primary">
+  <span>{{active}}</span>
+  <span class="navbar-spacer"></span>
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+</mat-toolbar>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="active = 'Places'">
+    <mat-icon>map</mat-icon>
+    <span>Places</span>
+  </button>
+  <button mat-menu-item (click)="active = 'Events'">
+    <mat-icon>event</mat-icon>
+    <span>Events</span>
+  </button>
+</mat-menu>
 <ng-content></ng-content>

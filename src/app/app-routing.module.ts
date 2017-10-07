@@ -2,11 +2,20 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [{
+  path: '',
+  loadChildren: 'app/welcome/welcome.module#WelcomeModule'
+}, {
   path: 'home',
   loadChildren: 'app/home/home.module#HomeModule'
 }, {
+  path: 'place',
+  loadChildren: 'app/place/place.module#PlaceModule'
+}, {
+  path: 'profile',
+  loadChildren: 'app/profile/profile.module#ProfileModule'
+}, {
   path: '**',
-  redirectTo: '/home'
+  redirectTo: '/'
 }];
 
 @NgModule({

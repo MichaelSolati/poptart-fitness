@@ -6,7 +6,8 @@ import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { IndexComponent } from './index/index.component';
-import { MapComponent } from './map/map.component';
+import { ExploreComponent } from './explore/explore.component';
+import { NearbyComponent } from './nearby/nearby.component';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { MapComponent } from './map/map.component';
     HomeComponent,
     NavbarComponent,
     IndexComponent,
-    MapComponent
+    ExploreComponent,
+    NearbyComponent
   ]
 })
 export class HomeModule { }

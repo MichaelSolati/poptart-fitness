@@ -10,7 +10,7 @@
       "assets": [
         "assets",
         "favicon.ico",
-        "hammer.min.js.map"
+        { "glob": "**/hammer.min.js.map", "input": "../node_modules/hammerjs", "output": "./" }
       ],
       "index": "index.html",
       "main": "main.ts",
@@ -22,6 +22,8 @@
       "serviceWorker": true,
       "styles": [
         "../node_modules/normalizecss/normalize.css",
+        "styles/attributes.scss",
+        "styles/classes.scss",
         "styles/components.scss",
         "styles.scss"
       ],

@@ -5,8 +5,12 @@ agm-map {
   }
 }
 
+mat-card-title {
+  font-size: 1.2rem !important;
+}
+
 pop-home-index {
-  md-tab-group {
+  mat-tab-group {
     div.mat-tab-body-wrapper {
       mat-tab-body {
         min-height: calc(100vh - 113px);
@@ -20,4 +24,8 @@ pop-home-index {
       }
     }
   }
+}
+
+pop-home-nearby {
+  background-color: white;
 }

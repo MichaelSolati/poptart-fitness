@@ -6,7 +6,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AgmCoreModule } from '@agm/core';
 
-import { environment } from '../../environments/environment';
+import { SignInComponent } from './sign-in/sign-in.component';
+import { DistancePipe } from './pipes/distance.pipe';
 
 @NgModule({
   imports: [
@@ -15,16 +16,19 @@ import { environment } from '../../environments/environment';
     FlexLayoutModule,
     ReactiveFormsModule,
     RouterModule,
-    AgmCoreModule.forRoot({
-      apiKey: environment.google
-    })
+    AgmCoreModule
   ],
-  declarations: [],
+  declarations: [
+    SignInComponent,
+    DistancePipe
+  ],
   exports: [
     ...MATERIAL,
     FlexLayoutModule,
     ReactiveFormsModule,
-    AgmCoreModule
+    AgmCoreModule,
+    SignInComponent,
+    DistancePipe
   ]
 })
 export class SharedModule { }
