@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { AgmCoreModule } from '@agm/core';
 
 import { SignInComponent } from './sign-in/sign-in.component';
+import { DistancePipe } from './pipes/distance.pipe';
 
 @NgModule({
   imports: [
@@ -17,13 +18,17 @@ import { SignInComponent } from './sign-in/sign-in.component';
     RouterModule,
     AgmCoreModule
   ],
-  declarations: [ SignInComponent ],
+  declarations: [
+    SignInComponent,
+    DistancePipe
+  ],
   exports: [
     ...MATERIAL,
     FlexLayoutModule,
     ReactiveFormsModule,
     AgmCoreModule,
-    SignInComponent
+    SignInComponent,
+    DistancePipe
   ]
 })
 export class SharedModule { }

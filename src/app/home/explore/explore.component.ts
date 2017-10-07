@@ -8,11 +8,11 @@ import { LocationService, PlacesService } from '../../core/services';
 
 @Component({
   moduleId: module.id,
-  selector: 'pop-home-map',
-  templateUrl: './map.component.html',
-  styleUrls: ['./map.component.scss']
+  selector: 'pop-home-explore',
+  templateUrl: './explore.component.html',
+  styleUrls: ['./explore.component.scss']
 })
-export class MapComponent implements OnInit, OnDestroy {
+export class ExploreComponent implements OnInit, OnDestroy {
 
   constructor(private _ls: LocationService, private _ps: PlacesService, private _router: Router) { }
 
@@ -31,8 +31,8 @@ export class MapComponent implements OnInit, OnDestroy {
     return this._ls.coordinates;
   }
 
-  get nearBy(): Observable<any[]> {
-    return this._ps.nearBy;
+  get nearMapCenter(): Observable<any[]> {
+    return this._ps.nearMapCenter;
   }
 
   get updating(): Observable<boolean> {

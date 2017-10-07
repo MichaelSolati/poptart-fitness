@@ -5,6 +5,10 @@ agm-map {
   }
 }
 
+mat-card-title {
+  font-size: 1.2rem !important;
+}
+
 pop-home-index {
   mat-tab-group {
     div.mat-tab-body-wrapper {
@@ -22,6 +26,6 @@ pop-home-index {
   }
 }
 
-mat-card-title {
-  font-size: 1.2rem !important;
+pop-home-nearby {
+  background-color: white;
 }

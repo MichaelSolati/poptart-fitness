@@ -7,10 +7,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
+  private _active = 'Places';
 
   constructor() { }
 
   ngOnInit() {
   }
 
+  get active(): string {
+    return this._active;
+  }
+
+  set active(active: string) {
+    this._active = active;
+  }
 }
