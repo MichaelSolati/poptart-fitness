@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve -o",
+    "start": "ng serve -o --disable-host-check",
     "start:pwa": "npm run build && cd dist && http-server",
     "build": "ng build --prod --aot",
     "test": "ng test",

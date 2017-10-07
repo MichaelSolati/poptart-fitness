@@ -1,13 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+import { AgmCoreModule } from '@agm/core';
 
-export class MyHammerConfig extends HammerGestureConfig {
-  overrides = <any>{
-    'swipe': { velocity: 0.4, threshold: 20 }
-  };
-}
+import { environment } from '../environments/environment';
 
 import { CoreModule } from './core/core.module';
 
@@ -21,9 +17,11 @@ import { AppComponent } from './app.component';
     BrowserModule.withServerTransition({ appId: 'poptart-fitness' }),
     BrowserAnimationsModule,
     AppRoutingModule,
-    CoreModule.forRoot()
+    CoreModule.forRoot(),
+    AgmCoreModule.forRoot({
+      apiKey: environment.google
+    })
   ],
-  providers: [{ provide: HAMMER_GESTURE_CONFIG, useClass: MyHammerConfig }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

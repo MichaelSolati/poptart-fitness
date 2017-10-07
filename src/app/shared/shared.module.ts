@@ -6,7 +6,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AgmCoreModule } from '@agm/core';
 
-import { environment } from '../../environments/environment';
 import { SignInComponent } from './sign-in/sign-in.component';
 
 @NgModule({
@@ -16,9 +15,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
     FlexLayoutModule,
     ReactiveFormsModule,
     RouterModule,
-    AgmCoreModule.forRoot({
-      apiKey: environment.google
-    }),
+    AgmCoreModule
   ],
   declarations: [ SignInComponent ],
   exports: [
