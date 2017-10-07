@@ -5,6 +5,16 @@ agm-map {
   }
 }
 
+mat-card-title {
+  font-size: 1.2rem !important;
+}
+
+mat-sidenav-container {
+  mat-sidenav {
+    width: 300px;
+  }
+}
+
 pop-home-index {
   mat-tab-group {
     div.mat-tab-body-wrapper {
@@ -20,4 +30,8 @@ pop-home-index {
       }
     }
   }
+}
+
+pop-home-nearby {
+  background-color: white;
 }

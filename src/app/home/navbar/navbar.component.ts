@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { MatSnackBar, MatSidenav } from '@angular/material';
+
+import { UserService } from '../../core/services';
 
 @Component({
   moduleId: module.id,
@@ -7,10 +11,32 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
+  private _active = 'Places';
+  private _goodBye: string[] = ['Au Revouir!', 'Bon Voyage!', 'Adios!', 'Auf Wiedersehen!'];
+  @ViewChild('sidenav') sidenav: MatSidenav;
 
-  constructor() { }
+  constructor(private _router: Router, private _snackBar: MatSnackBar, private _us: UserService) { }
 
   ngOnInit() {
   }
 
+  get active(): string {
+    return this._active;
+  }
+
+  set active(active: string) {
+    this._active = active;
+  }
+
+  public navToggle(): void {
+    this.sidenav.toggle();
+  }
+
+  public signOut(): void {
+    this._us.signOut((error: Error) => {
+      const message: string = this._goodBye[Math.round(Math.random() * this._goodBye.length)];
+      this._snackBar.open(message, null, { duration: 3000 });
+      this._router.navigate(['/']);
+    });
+  }
 }
