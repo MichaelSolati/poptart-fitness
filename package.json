@@ -11,7 +11,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "firebase:deploy": "npm run build && firebase deploy",
-    "firebase:functions": "firebase serve --only functions --project dev",
+    "firebase:functions": "firebase deploy --only functions --project dev",
     "firebase:functions:develop": "nodemon -x \"npm run firebase:functions\" -w ./functions",
     "release:major": "changelog -M && git add . && git commit -m 'chore(release): major version release' && npm version major && git push origin && git push origin --tags",
     "release:minor": "changelog -m && git add . && git commit -m 'chore(release): minor version release' && npm version minor && git push origin && git push origin --tags",
