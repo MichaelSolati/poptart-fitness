@@ -5,6 +5,7 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
 import { SERVICES, LocationService, PlacesService } from './services';
+import { GUARDS } from './guards';
 
 import { environment } from '../../environments/environment';
 
@@ -16,7 +17,8 @@ import { environment } from '../../environments/environment';
     AngularFireAuthModule
   ],
   providers: [
-    ...SERVICES
+    ...SERVICES,
+    ...GUARDS
   ],
   declarations: []
 })
