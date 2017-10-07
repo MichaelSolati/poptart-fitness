@@ -44,7 +44,7 @@ export class SignInComponent implements OnInit {
             this._snackBar.open(error.message, null, { duration: 3000 });
           } else {
             this._snackBar.open('Welcome ' + success.user.displayName, null, { duration: 3000 });
-            this._router.navigate(['/', 'profile']);
+            this._router.navigate(['/', 'home']);
           }
         });
         break;

@@ -1,18 +1,24 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+import { UserGuard, NoUserGuard, PlaceGuard } from './core/guards';
+
 const routes: Routes = [{
   path: '',
-  loadChildren: 'app/welcome/welcome.module#WelcomeModule'
+  loadChildren: 'app/welcome/welcome.module#WelcomeModule',
+  canActivateChild: [NoUserGuard]
 }, {
   path: 'home',
-  loadChildren: 'app/home/home.module#HomeModule'
+  loadChildren: 'app/home/home.module#HomeModule',
+  canActivateChild: [UserGuard]
 }, {
   path: 'place',
-  loadChildren: 'app/place/place.module#PlaceModule'
+  loadChildren: 'app/place/place.module#PlaceModule',
+  canActivateChild: [PlaceGuard]
 }, {
   path: 'profile',
-  loadChildren: 'app/profile/profile.module#ProfileModule'
+  loadChildren: 'app/profile/profile.module#ProfileModule',
+  canActivateChild: [UserGuard]
 }, {
   path: '**',
   redirectTo: '/'
