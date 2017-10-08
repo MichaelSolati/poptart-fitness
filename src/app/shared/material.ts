@@ -7,6 +7,7 @@ import {
   MatProgressBarModule,
   MatCardModule,
   MatDatepickerModule,
+  MatNativeDateModule,
   MatCheckboxModule,
   MatRadioModule,
   MatSidenavModule,
@@ -16,7 +17,8 @@ import {
   MatDialogModule,
   MatButtonToggleModule,
   MatTabsModule,
-  MatListModule
+  MatListModule,
+  MatInputModule
 } from '@angular/material';
 
 export const MATERIAL: any[] = [
@@ -28,6 +30,7 @@ export const MATERIAL: any[] = [
   MatProgressBarModule,
   MatCardModule,
   MatDatepickerModule,
+  MatNativeDateModule,
   MatCheckboxModule,
   MatRadioModule,
   MatSidenavModule,
@@ -37,5 +40,6 @@ export const MATERIAL: any[] = [
   MatDialogModule,
   MatButtonToggleModule,
   MatTabsModule,
-  MatListModule
+  MatListModule,
+  MatInputModule
 ];

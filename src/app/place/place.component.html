@@ -13,3 +13,5 @@
     </mat-chip-list>
   </mat-card-content>
 </mat-card>
+
+<button mat-fab *ngIf="(user | async)" (click)="createEvent()"><mat-icon>event_available</mat-icon></button>
