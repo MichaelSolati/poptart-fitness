@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   moduleId: module.id,
@@ -7,10 +7,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./index.component.scss']
 })
 export class IndexComponent implements OnInit {
-
+  private _active: string;
+  @Input()
+  set active(active: string) {
+    this._active = active;
+  }
   constructor() { }
 
   ngOnInit() {
   }
 
+  get active(): string {
+    return this._active;
+  }
 }

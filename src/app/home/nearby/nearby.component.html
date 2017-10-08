@@ -1,8 +1,8 @@
 <mat-list>
-  <h3 mat-subheader>Places Nearby</h3>
-  <ng-template ngFor [ngForOf]="nearUser | async" let-place>
-    <mat-list-item [routerLink]="['/', 'place', place.id]">
-      <h4 mat-line>{{place.name}}</h4>
+  <h3 mat-subheader>Nearby {{active}}</h3>
+  <ng-template ngFor [ngForOf]="places | async" let-place>
+    <mat-list-item (click)="itemClick(place)">
+      <h4 mat-line>{{place.name || (place.activity + ' event on ' + (place.starts | date))}}</h4>
       <p mat-line> {{place.coordinates | distance | async}} miles away</p>
     </mat-list-item>
     <mat-divider></mat-divider>
