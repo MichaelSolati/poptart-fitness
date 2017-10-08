@@ -6,9 +6,10 @@ import { Subscription } from 'rxjs/Subscription';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import 'rxjs/add/operator/first';
 
-import { PlacesService, UserService } from '../core/services';
+import { EventsService, PlacesService, UserService } from '../core/services';
 
 import { CreateEventComponent } from './create-event/create-event.component';
+import { ViewEventComponent } from './view-event/view-event.component';
 
 @Component({
   moduleId: module.id,
@@ -17,12 +18,13 @@ import { CreateEventComponent } from './create-event/create-event.component';
   styleUrls: ['./place.component.scss']
 })
 export class PlaceComponent implements OnInit, OnDestroy {
+  private _events: Observable<any>;
   private _opened: boolean;
   private _place: Observable<any>;
   private _idSubscription: Subscription;
 
   constructor(
-    private _dialog: MatDialog, private _location: Location,
+    private _dialog: MatDialog, private _es: EventsService, private _location: Location,
     private _ps: PlacesService, private _route: ActivatedRoute, private _us: UserService
   ) { }
 
@@ -30,11 +32,16 @@ export class PlaceComponent implements OnInit, OnDestroy {
     this._idSubscription = this._route.params.subscribe((params: any) => {
       const id: string = params['id'];
       this._place = this._ps.findById(id);
+      this._events = this._es.locationEvents(id);
     });
   }
 
   ngOnDestroy() {
     this._idSubscription.unsubscribe();
+  }
+
+  get events(): Observable<any> {
+    return this._events;
   }
 
   get opened(): boolean {
@@ -66,13 +73,19 @@ export class PlaceComponent implements OnInit, OnDestroy {
 
   public createEvent(): void {
     this.place.first().subscribe((place: any) => {
-      const dialogRef: MatDialogRef<CreateEventComponent> = this._dialog.open(CreateEventComponent, {
+      this._dialog.open(CreateEventComponent, {
         width: '400px',
         data: { place: place }
       });
-      // dialogRef.afterClosed().subscribe((result: any) => {
-      //   console.log(result);
-      // });
+    });
+  }
+
+  public eventClick(event: any): void {
+    this.place.first().subscribe((place: any) => {
+      this._dialog.open(ViewEventComponent, {
+        width: '400px',
+        data: { event: event, place: place }
+      });
     });
   }
 

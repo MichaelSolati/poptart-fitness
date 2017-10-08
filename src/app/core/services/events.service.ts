@@ -71,6 +71,12 @@ export class EventsService {
     });
   }
 
+  public locationEvents(id: string): Observable<any[]> {
+    return this._fbDB.list('events', (ref: firebase.database.Reference) => {
+      return ref.orderByChild('placeId').equalTo(String(id));
+    }).valueChanges();
+  }
+
   private _validate(event: any): boolean {
     if (!event.description) {
       throw new Error('Hey, you need a description!');

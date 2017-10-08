@@ -1,0 +1,19 @@
+{
+	"rules": {
+		".read": "true",
+		".write": "false",
+		"events": {
+			".write": "auth != null",
+ 			".indexOn": ["hash", "placeId"]
+		},
+		"places": {
+			".indexOn": "hash"
+		},
+		"profiles": {
+			".indexOn": "email"
+		},
+		"userBadges": {
+			".indexOn": "uid"
+		}
+	}
+}
