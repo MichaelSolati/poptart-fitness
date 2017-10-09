@@ -4,7 +4,10 @@
 		".write": "false",
 		"events": {
 			".write": "auth != null",
- 			".indexOn": ["hash", "placeId"]
+			".indexOn": [ "starts", "placeId", "uid" ]
+		},
+		"activeEvents": {
+			".indexOn": [ "starts", "hash", "placeId" ]
 		},
 		"places": {
 			".indexOn": "hash"

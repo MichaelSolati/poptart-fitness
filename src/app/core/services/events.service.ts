@@ -19,7 +19,7 @@ export class EventsService {
   private _today: Date = new Date();
 
   constructor(private _fbDB: AngularFireDatabase, private _ls: LocationService, private _us: UserService) {
-    this._dbRef = firebase.database().ref('events');
+    this._dbRef = firebase.database().ref('activeEvents');
     this._geoFire = new GeoFire(this._dbRef);
     this._ls.mapCenter.subscribe((coords: LatLngLiteral) => {
       this._geoFetch(coords, 8, this._nearMapCenter);
@@ -48,7 +48,7 @@ export class EventsService {
     this._us.user.first().subscribe((user: any) => {
       if (!user) { return; }
       event.uid = user.uid;
-      this._fbDB.list('/events')
+      this._fbDB.list('events')
         .push(event).then((result: any) => {
           if (callback) { callback(null, true); }
         });
@@ -72,7 +72,7 @@ export class EventsService {
   }
 
   public locationEvents(id: string): Observable<any[]> {
-    return this._fbDB.list('events', (ref: firebase.database.Reference) => {
+    return this._fbDB.list('activeEvents', (ref: firebase.database.Reference) => {
       return ref.orderByChild('placeId').equalTo(String(id));
     }).valueChanges();
   }
