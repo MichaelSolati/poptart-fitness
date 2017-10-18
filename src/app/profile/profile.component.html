@@ -5,26 +5,26 @@
     <mat-card-content>
       <h1>{{(user|async)?.name}}</h1>
       <p>Rank: Here</p>
-    </md-card-content>
-  </md-card>
+    </mat-card-content>
+  </mat-card>
 </section>
 
 <!-- Trophies -->
 <section fxLayoutAlign="center center">
-  <md-card>
-    <md-card-header>
+  <mat-card>
+    <mat-card-header>
       Trophies
-    </md-card-header>
-  </md-card>
+    </mat-card-header>
+  </mat-card>
 </section>
 
 <!-- Activities -->
-<section>
+<!-- <section>
   <mat-card>
     <h1>What are your favorite activities?</h1>
-    <md-chip-list #activityChips>
-      <md-chip *ngFor="let activity of activites">{{activity.name}}></md-chip>
-    </md-chip-list>
-    <input mdChipInputFor="activityChips">
-  </md-card>
-</section>
+    <mat-chip-list #activityChips>
+      <mat-chip *ngFor="let activity of activites">{{activity.name}}></mat-chip>
+    </mat-chip-list>
+    <input matChipInputFor="activityChips">
+  </mat-card>
+</section> -->

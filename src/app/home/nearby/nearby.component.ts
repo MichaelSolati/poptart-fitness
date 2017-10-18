@@ -41,12 +41,4 @@ export class NearbyComponent implements OnInit {
   get places(): Observable<any[]> {
     return this._places;
   }
-
-  public itemClick(item: any): void {
-    if (item.id) {
-      this._router.navigate(['/', 'place', item.id]);
-    } else if (item.placeId) {
-      this._router.navigate(['/', 'place', item.placeId]);
-    }
-  }
 }

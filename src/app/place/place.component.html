@@ -1,4 +1,4 @@
-<agm-map [latitude]="(place | async)?.coordinates.lat" [longitude]="(place | async)?.coordinates.lng" [zoom]="18">
+<agm-map [latitude]="(place | async)?.coordinates.lat" [longitude]="(place | async)?.coordinates.lng" [zoom]="18" [scrollwheel]="false">
   <agm-marker [latitude]="(place | async)?.coordinates.lat" [longitude]="(place | async)?.coordinates.lng"></agm-marker>
 </agm-map>
 

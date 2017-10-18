@@ -13,3 +13,4 @@ script:
   - npm run build
 after_success:
   - firebase deploy --project default --non-interactive --token $FIREBASE_TOKEN
+  - firebase deploy --project dev --non-interactive --token $FIREBASE_TOKEN
