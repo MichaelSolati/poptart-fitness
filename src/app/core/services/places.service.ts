@@ -5,6 +5,7 @@ import * as GeoFire from '../classes/geofire.js';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { LatLngLiteral } from '@agm/core';
+import { Geokit } from 'geokit';
 
 import { LocationService } from './location.service';
 
@@ -12,6 +13,7 @@ import { LocationService } from './location.service';
 export class PlacesService {
   private _dbRef: any;
   private _geoFire: any;
+  private _geoKit: Geokit = new Geokit();
   private _nearMapCenter: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   private _nearUser: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
 
@@ -46,10 +48,21 @@ export class PlacesService {
       radius: radius
     }).on('key_entered', (key: string, result: any) => {
       let places: any[] = [...store.value];
+      if (places.find((place: any) => place.id === result.id)) { return; }
       places.push(result);
-      places = places.filter((a: any, i: number, self: any[]) => self.findIndex((b: any) => b.id === a.id) === i);
-      if (places.length > max) { places = places.slice(places.length - max, places.length); }
+      places.map((place: any) => place.distance = this._geoKit.distance(coords, place.coordinates, 'miles'));
+      places = this._quicksort(places);
+      if (places.length > max) { places = places.slice(max); }
       store.next(places);
     });
+  }
+
+  private _quicksort(c: any[]): any[] {
+    if (c.length <= 1) { return c; }
+    const pivot: any = c.pop();
+    const less: any[] = [];
+    const more: any[] = [];
+    c.forEach((val: any) => (pivot.distance > val.distance) ? less.push(val) : more.push(val));
+    return [...this._quicksort(less), pivot, ...this._quicksort(more)];
   }
 }

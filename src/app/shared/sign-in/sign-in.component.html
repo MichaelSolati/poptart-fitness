@@ -1,27 +1,24 @@
 <section fxLayoutAlign="center center">
-  <mat-card fxFlex="70%" fxFlex.xs="100" fxFlex.sm="100%" fxFlex.mat="65%">
-    <mat-card-content fxLayout="row" fxLayoutAlign="space-evenly stretch" >
-        <div fxFlex="33%" class="text-center">
-          <button mat-button (click)="signIn('facebook')">
-            <img src="assets/icons/facebook.svg" class="full-size" alt="Facebook Login">
-            <br>
-            Facebook
-        </button>  
-        </div>
-        <div fxFlex="33%" class="text-center">
-          <button mat-button (click)="signIn('google')">
-            <img src="assets/icons/google.svg" class="full-size" alt="Google Login">
-            <br>
-            Google
-          </button>
-        </div>
-        <div fxFlex="33%" class="text-center">
-          <button mat-button (click)="signIn('twitter')">
-            <img src="assets/icons/twitter.svg" class="full-size" alt="Twitter Login">
-            <br>
-            Twitter
-          </button>
-        </div>
-      </mat-card-content>
-  </mat-card>
+  <div fxFlex="70%" fxFlex.xs="100" fxFlex.sm="100%" fxFlex.mat="65%">
+    <div fxLayout="row" fxLayoutAlign="space-evenly stretch">
+      <div fxFlex="33%" class="text-center">
+        <button mat-button (click)="signIn('facebook')">
+          <img src="assets/icons/facebook.svg" class="full-size" alt="Facebook Login">
+          <br> Facebook
+        </button>
+      </div>
+      <div fxFlex="33%" class="text-center">
+        <button mat-button (click)="signIn('google')">
+          <img src="assets/icons/google.svg" class="full-size" alt="Google Login">
+          <br> Google
+        </button>
+      </div>
+      <div fxFlex="33%" class="text-center">
+        <button mat-button (click)="signIn('twitter')">
+          <img src="assets/icons/twitter.svg" class="full-size" alt="Twitter Login">
+          <br> Twitter
+        </button>
+      </div>
+    </div>
+  </div>
 </section>

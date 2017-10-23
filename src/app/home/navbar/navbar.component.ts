@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSnackBar, MatSidenav } from '@angular/material';
 
@@ -12,6 +12,7 @@ import { UserService } from '../../core/services';
 })
 export class NavbarComponent implements OnInit {
   private _active = 'Places';
+  @Output() activeOutput: EventEmitter<string> = new EventEmitter<string>();
   private _goodBye: string[] = ['Au Revouir!', 'Bon Voyage!', 'Adios!', 'Auf Wiedersehen!'];
   @ViewChild('sidenav') sidenav: MatSidenav;
 
@@ -26,6 +27,7 @@ export class NavbarComponent implements OnInit {
 
   set active(active: string) {
     this._active = active;
+    this.activeOutput.emit(active);
   }
 
   public navToggle(): void {

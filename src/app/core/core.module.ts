@@ -4,7 +4,7 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
-import { SERVICES, LocationService, PlacesService } from './services';
+import { SERVICES, LocationService } from './services';
 import { GUARDS } from './guards';
 
 import { environment } from '../../environments/environment';
@@ -23,7 +23,7 @@ import { environment } from '../../environments/environment';
   declarations: []
 })
 export class CoreModule {
-  constructor(private _ls: LocationService, private _ps: PlacesService) { }
+  constructor(private _ls: LocationService) { }
 
   static forRoot(): ModuleWithProviders {
     return {

@@ -1,10 +1,25 @@
-<mat-list>
-  <h3 mat-subheader>Places Nearby</h3>
-  <ng-template ngFor [ngForOf]="nearUser | async" let-place>
-    <mat-list-item [routerLink]="['/', 'place', place.id]">
-      <h4 mat-line>{{place.name}}</h4>
-      <p mat-line> {{place.coordinates | distance | async}} miles away</p>
-    </mat-list-item>
-    <mat-divider></mat-divider>
-  </ng-template>
+<mat-list class="container">
+  <h3 mat-subheader>Nearby {{active}}</h3>
+  <div fxLayout="column" fxLayout.gt-xs="row" fxLayoutWrap>
+    <ng-template ngFor let-place [ngForOf]="places | async">
+      <mat-list-item fxHide.gt-xs="true" [routerLink]="['/', 'place', (place.id || place.placeId)]">
+        <h4 mat-line>{{place.name || (place.activity + ' event on ' + (place.starts | date))}}</h4>
+        <p mat-line>{{place.distance | fixed}} miles away</p>
+      </mat-list-item>
+      <mat-divider [fxHide.gt-xs]="true"></mat-divider>
+      <div fxHide.lt-sm="true" fxFlex.gt-xs="50" fxFlex.gt-sm="33" fxFlex.gt-md="25" class="mat-card-padding">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>{{place.name || (place.activity + ' event on ' + (place.starts | date))}}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>{{place.distance | fixed}} miles away</p>
+          </mat-card-content>
+          <mat-card-actions>
+            <a mat-button [routerLink]="['/', 'place', (place.id || place.placeId)]">VIEW PLACE</a>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </ng-template>
+  </div>
 </mat-list>
