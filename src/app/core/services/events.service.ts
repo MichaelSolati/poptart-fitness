@@ -5,6 +5,7 @@ import * as GeoFire from '../classes/geofire.js';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { LatLngLiteral } from '@agm/core';
+import { Geokit } from 'geokit';
 import 'rxjs/add/operator/first';
 
 import { LocationService } from './location.service';
@@ -14,6 +15,7 @@ import { UserService } from './user.service';
 export class EventsService {
   private _dbRef: any;
   private _geoFire: any;
+  private _geoKit: Geokit = new Geokit();
   private _nearMapCenter: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   private _nearUser: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   private _today: Date = new Date();
@@ -62,11 +64,13 @@ export class EventsService {
       radius: radius
     }).on('key_entered', (key: string, result: any) => {
       result.$key = key;
-      if (result.starts < this._today.getTime()) { return; }
       let events: any[] = [...store.value];
+      if (result.starts < this._today.getTime()) { return; }
+      if (events.find((event: any) => event.id === result.id)) { return; }
       events.push(result);
-      events = events.filter((a: any, i: number, self: any[]) => self.findIndex((b: any) => b.$key === a.$key) === i);
-      if (events.length > max) { events = events.slice(events.length - max, events.length); }
+      events.map((event: any) => event.distance = this._geoKit.distance(coords, event.coordinates, 'miles'));
+      events = this._quicksort(events);
+      if (events.length > max) { events = events.slice(max); }
       store.next(events);
     });
   }
@@ -75,6 +79,15 @@ export class EventsService {
     return this._fbDB.list('activeEvents', (ref: firebase.database.Reference) => {
       return ref.orderByChild('placeId').equalTo(String(id));
     }).valueChanges();
+  }
+
+  private _quicksort(c: any[]): any[] {
+    if (c.length <= 1) { return c; }
+    const pivot: any = c.pop();
+    const less: any[] = [];
+    const more: any[] = [];
+    c.forEach((val: any) => (pivot.distance > val.distance) ? less.push(val) : more.push(val));
+    return [...this._quicksort(less), pivot, ...this._quicksort(more)];
   }
 
   private _validate(event: any): boolean {

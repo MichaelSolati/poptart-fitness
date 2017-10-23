@@ -1,7 +1,7 @@
-<agm-map [latitude]="(coordsMap | async)?.lat" [longitude]="(coordsMap | async)?.lng" (swipe)="swipe($event)" (centerChange)="centerChange($event)"
-  [zoom]="14" [scrollwheel]="false">
-  <agm-marker [latitude]="(coordsUser | async)?.lat" [longitude]="(coordsUser | async)?.lng"></agm-marker>
-  <agm-marker *ngFor="let marker of markers | async" (markerClick)="markerClick(marker)" [latitude]="marker.coordinates.lat"
+<agm-map [latitude]="(coordsMap | async)?.lat" [longitude]="(coordsMap | async)?.lng" (centerChange)="centerChange($event)"
+  [zoom]="17" [zoomControl]="false" [streetViewControl]="false" [usePanning]="true" [fullscreenControl]="false" [gestureHandling]="'greedy'">
+  <agm-marker [latitude]="(coordsUser | async)?.lat" [longitude]="(coordsUser | async)?.lng" iconUrl="./assets/bluedot.png"></agm-marker>
+  <agm-marker *ngFor="let marker of markers | async; trackBy: trackByFn" (markerClick)="markerClick(marker)" [latitude]="marker.coordinates.lat"
     [longitude]="marker.coordinates.lng"></agm-marker>
 </agm-map>
 <button mat-fab (click)="toggleWatch()">

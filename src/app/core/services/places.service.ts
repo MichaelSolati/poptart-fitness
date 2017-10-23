@@ -46,13 +46,13 @@ export class PlacesService {
     this._geoFire.query({
       center: [coords.lat, coords.lng],
       radius: radius
-    }).on('key_entered', (key: string, newPlace: any) => {
+    }).on('key_entered', (key: string, result: any) => {
       let places: any[] = [...store.value];
-      if (places.find((place: any) => place.id === newPlace.id)) { return; }
-      places.push(newPlace);
+      if (places.find((place: any) => place.id === result.id)) { return; }
+      places.push(result);
       places.map((place: any) => place.distance = this._geoKit.distance(coords, place.coordinates, 'miles'));
       places = this._quicksort(places);
-      if (places.length > max) { places = places.slice(0, max); }
+      if (places.length > max) { places = places.slice(max); }
       store.next(places);
     });
   }

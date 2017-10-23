@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { LatLngLiteral } from '@agm/core';
+import { Geokit } from 'geokit';
 import 'rxjs/add/operator/first';
 
 import { EventsService, LocationService, PlacesService } from '../../core/services';
@@ -24,6 +25,8 @@ export class ExploreComponent implements OnInit, OnDestroy {
         break;
     }
   }
+  private _lastLocation: LatLngLiteral = { lat: 0, lng: 0 };
+  private _geoKit: Geokit = new Geokit();
   private _markers: Observable<any[]>;
 
   constructor(private _es: EventsService, private _ls: LocationService, private _ps: PlacesService, private _router: Router) {
@@ -54,7 +57,11 @@ export class ExploreComponent implements OnInit, OnDestroy {
   }
 
   public centerChange(coordinates: LatLngLiteral): void {
-    this._ls.updateMapCenter(coordinates);
+    this._lastLocation = coordinates;
+
+    this.coordsUser.first().subscribe((coords: LatLngLiteral) => {
+      if (this._geoKit.distance(coordinates, coords) > 0.05) { this._ls.updateMapCenter(this._lastLocation); }
+    });
   }
 
   public markerClick(marker: any): void {
@@ -65,13 +72,13 @@ export class ExploreComponent implements OnInit, OnDestroy {
     }
   }
 
-  public swipe(event: any): void {
-    this._ls.updatingStop();
-  }
-
   public toggleWatch(): void {
     this._ls.updating.first().subscribe((state: boolean) => {
       (state) ? this._ls.updatingStop() : this._ls.updatingStart();
     });
+  }
+
+  public trackByFn(index: number, item: any): string {
+    return item.id;
   }
 }
