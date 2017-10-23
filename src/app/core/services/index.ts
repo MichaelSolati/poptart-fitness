@@ -10,6 +10,12 @@ import { ProfilesService } from './profiles.service';
 export { ProfilesService } from './profiles.service';
 import { UserService } from './user.service';
 export { UserService } from './user.service';
+import { BadgesService } from './badges.service';
+export { BadgesService } from './badges.service';
+import { ProfilesService } from './profiles.service';
+export { ProfilesService } from './profiles.service';
+import { EventsService } from './events.service';
+export { EventsService } from './events.service';
 
 export const SERVICES: any[] = [
   ActivitiesService,
@@ -18,4 +24,7 @@ export const SERVICES: any[] = [
   PlacesService,
   ProfilesService,
   UserService,
+  ProfilesService,
+  BadgesService,
+  EventsService
 ];

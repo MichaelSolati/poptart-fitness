@@ -7,17 +7,11 @@ import { IndexComponent } from './index/index.component';
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent,
-    children: [
-      {
-        path: '',
-        component: IndexComponent,
-        pathMatch: 'full'
-      }, {
-        path: '**',
-        redirectTo: 'home'
-      }
-    ]
+    component: HomeComponent
+  },
+  {
+    path: '**',
+    redirectTo: 'home'
   }
 ];
 
