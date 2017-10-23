@@ -1,31 +1,21 @@
 agm-map {
-    height: 33vh;
-    width: 100vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
 }
 
-h1 {
-    font-size: 64px;
-    margin: 25px 0px;
+section {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  div {
+    width: 100%;
+  }
 }
-
-h2 {
-    font-size: 32px;
-    //margin: -10px 0px;
-}
-
-h3 {
-    //padding: 1em 0px;
-    font-size: 28px;
-}
-
-// #sec1 {
-//     height: 20vh;
-// }
-
-// #sec2 {
-//     height: 30vh;
-// }
-
-// #sec3 {
-//     height: 30vh;
-// }

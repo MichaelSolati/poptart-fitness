@@ -13,7 +13,7 @@ import { UserService } from '../services';
 @Injectable()
 export class NoUserGuard implements CanActivate {
   /**
-   * @param _router Provides the navigation and url manipulation capabiliti.es.
+   * @param _router Provides the navigation and url manipulation capabilities.
    * @param _us UserService that provides information on current user
    */
   constructor(private _router: Router, private _us: UserService) { }
