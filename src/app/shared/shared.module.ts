@@ -8,6 +8,7 @@ import { AgmCoreModule } from '@agm/core';
 
 import { SignInComponent } from './sign-in/sign-in.component';
 import { DistancePipe } from './pipes/distance.pipe';
+import { FixedPipe } from './pipes/fixed.pipe';
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import { DistancePipe } from './pipes/distance.pipe';
   ],
   declarations: [
     SignInComponent,
-    DistancePipe
+    DistancePipe,
+    FixedPipe
   ],
   exports: [
     ...MATERIAL,
@@ -28,7 +30,8 @@ import { DistancePipe } from './pipes/distance.pipe';
     ReactiveFormsModule,
     AgmCoreModule,
     SignInComponent,
-    DistancePipe
+    DistancePipe,
+    FixedPipe
   ]
 })
 export class SharedModule { }

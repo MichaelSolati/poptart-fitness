@@ -1,7 +1,8 @@
 <mat-card>
   <mat-card-header>
-    <mat-card-title>Event on {{(event | async)?.starts | date}}</mat-card-title>
-    <mat-card-subtitle>@ {{(place | async)?.name}}</mat-card-subtitle>
+    <img mat-card-avatar [src]="(profile | async)?.photoURL" [alt]="(profile | async)?.name">
+    <mat-card-title>Hosted By {{(profile | async)?.name}}</mat-card-title>
+    <mat-card-subtitle>Event on {{(event | async)?.starts | date}}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
     <mat-chip-list>
