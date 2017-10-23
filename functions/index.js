@@ -1,6 +1,10 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
-const serviceAccount = require('./serviceAccountKey.json');
+let serviceAccount;
+
+try {
+  serviceAccount = require('./serviceAccountKey.json');
+} catch (e) { }
 
 if (serviceAccount) {
   admin.initializeApp({
