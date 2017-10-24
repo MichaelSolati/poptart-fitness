@@ -1,7 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/first';
 
 import { ProfilesService } from '../../core/services/profiles.service';
 import { EventsService } from '../../core/services/events.service';
@@ -25,9 +27,10 @@ export class ViewEventComponent implements OnInit {
    * @param _data Data passed into modal.
    * @param _ps ProfileService that allows querying of public profile.
    * @param _es EventService that allows checking in of events.
+   * @param _router Provides the navigation and url manipulation capabilities.
    */
   constructor(private _dialogRef: MatDialogRef<any>, @Inject(MAT_DIALOG_DATA) private _data: any,
-              private _ps: ProfilesService, private _es: EventsService) {
+    private _ps: ProfilesService, private _es: EventsService, private _router: Router) {
     this._event.next(this._data.event);
     this._place.next(this._data.place);
     this._profile = this._ps.findProfile(this._data.event.uid);
@@ -76,5 +79,18 @@ export class ViewEventComponent implements OnInit {
    */
   public close(result?: any): void {
     this._dialogRef.close(result);
+  }
+
+  /**
+   * Navigate to creator of an event's profile.
+   * @param profile User profile object as observable.
+   */
+  public viewHost(profile: Observable<any>): void {
+    profile.first().subscribe((user: any) => {
+      if (!user) { return; }
+      this._router.navigate(['/', 'profile', user.uid]).then(() => {
+        this.close();
+      });
+    });
   }
 }
