@@ -34,10 +34,31 @@ exports.ct = functions.https.onRequest((request, response) => {
   });
 });
 
-
-exports.wikipedia = functions.database.ref('/places/{placeId}').onCreate((event) => {
-  console.log(event);
-  // const places = admin.database().ref('places');
-  // activeEvents.child(event.params.placeId).set(event.data.val());
-  return event;
+exports.wikipedia = functions.https.onRequest((request, response) => {
+  const body = JSON.parse(request.body);
+  const places = admin.database().ref('/places');
+  if (!body.id) { throw new Error('No place id found'); }
+  places.child(body.id).on('value', (snapshot) => {
+    const place = snapshot.val();
+    if (place.description) { return response.send(JSON.stringify({ results: place.description })); }
+    const options = {
+      method: 'GET',
+      url: 'https://en.wikipedia.org/w/api.php',
+      qs: { action: 'query', prop: 'extracts', format: 'json', titles: place.name }
+    }
+    httpRequire(options, (err, res, wikiBody) => {
+      if (err) throw new Error(err);
+      let description;
+      try {
+        let wikiResult = JSON.parse(wikiBody).query.pages;
+        for (var prop in wikiResult) {
+          try {
+            description = wikiResult[prop].extract.replace(/<\/?[^>]+(>|$)/g, '');
+          } catch (e) { }
+          break;
+        }
+      } catch (e) { }
+      places.child(place.id).update({ description: description });
+    });
+  });
 });
