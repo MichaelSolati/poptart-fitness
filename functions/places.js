@@ -33,3 +33,11 @@ exports.ct = functions.https.onRequest((request, response) => {
     response.send(JSON.stringify({ results: locations }));
   });
 });
+
+
+exports.wikipedia = functions.database.ref('/places/{placeId}').onCreate((event) => {
+  console.log(event);
+  // const places = admin.database().ref('places');
+  // activeEvents.child(event.params.placeId).set(event.data.val());
+  return event;
+});

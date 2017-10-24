@@ -1,0 +1,20 @@
+<agm-map [latitude]="(coordinates | async)?.lat" [longitude]="(coordinates | async)?.lng" [zoom]="14" [scrollwheel]="false"
+  [draggable]="false" [scrollwheel]="false" [gestureHandling]="'none'" [zoomControl]="false" [disableDoubleClickZoom]="true"
+  [streetViewControl]="false" [usePanning]="true" [fullscreenControl]="false"></agm-map>
+
+<section>
+  <div fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row" fxLayoutWrap>
+    <div fxFlex.gt-xs="50" fxFlex.gt-md="33" class="mat-card-padding">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Poptart Fitness</mat-card-title>
+          <mat-card-subtitle>Discover activities and others around you.</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <pop-sign-in></pop-sign-in>
+          <h5 class="text-center">Sign in with any existing Google, Facebook, or Twitter account.</h5>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</section>

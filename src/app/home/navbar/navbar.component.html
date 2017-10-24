@@ -1,4 +1,39 @@
-<md-toolbar color="primary">
-  <span>Poptart Fitness</span>
-</md-toolbar>
-<ng-content></ng-content>
+<mat-sidenav-container>
+  <mat-sidenav #sidenav>
+    <mat-nav-list>
+      <mat-list-item [routerLink]="['/', 'profile']">
+        <mat-icon mat-list-icon>person</mat-icon>
+        <span mat-line>My Profile</span>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+
+      <mat-list-item (click)="signOut()">
+        <mat-icon mat-list-icon>exit_to_app</mat-icon>
+        <span mat-line>Sign Out</span>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-toolbar color="primary">
+    <button mat-button (click)="navToggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>{{active}}</span>
+    <span class="navbar-spacer"></span>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+  </mat-toolbar>
+  <ng-content></ng-content>
+</mat-sidenav-container>
+
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="active = 'Places'">
+    <mat-icon>map</mat-icon>
+    <span>Places</span>
+  </button>
+  <button mat-menu-item (click)="active = 'Events'">
+    <mat-icon>event</mat-icon>
+    <span>Events</span>
+  </button>
+</mat-menu>
