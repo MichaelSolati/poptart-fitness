@@ -27,16 +27,4 @@ exports.user = functions.auth.user().onCreate((event) => {
       });
     }
   });
-
-  activities.on('value', (snapshot) => {
-    const activityresults = snapshot.val();
-    for (id in activityresults) {
-      useractivities.push()({
-        aid: id,
-        like: false,
-        name: activity.name,
-        uid: profile.uid
-      });
-    }
-  });
 })
