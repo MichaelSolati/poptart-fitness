@@ -4,7 +4,6 @@ const Geokit = require('geokit').Geokit;
 const httpRequire = require('request');
 const geokit = new Geokit();
 
-
 exports.ct = functions.https.onRequest((request, response) => {
   const places = admin.database().ref('/places');
   places.remove().then(() => {
@@ -45,15 +44,20 @@ exports.wikipedia = functions.database.ref('/places/{placeId}').onCreate((event)
   }, (err, res, body) => {
     if (err) throw new Error(err);
     let description;
+    let wikipediaId;
     try {
       let wikiResult = JSON.parse(body).query.pages;
       for (var prop in wikiResult) {
         try {
           description = wikiResult[prop].extract.replace(/<\/?[^>]+(>|$)/g, '');
+          if (description.length > 256) { description = description.slice(0, 253) + '...'; }
+        } catch (e) { }
+        try {
+          wikipediaId = wikiResult[prop].pageid;
         } catch (e) { }
         break;
       }
     } catch (e) { }
-    return places.child(place.id).update({ description: description });
+    return places.child(place.id).update({ description: description, wikipediaId: wikipediaId });
   });
 });
