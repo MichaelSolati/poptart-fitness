@@ -9,6 +9,9 @@ import { ProfilesService, UserService } from '../core/services';
 import { ActivitiesService, IActivity } from '../core/services/activities.service';
 import { BadgesService, IBadge } from '../core/services/badges.service';
 
+/**
+ * A component for the Profile
+ */
 @Component({
   moduleId: module.id,
   selector: 'pop-profile',
@@ -22,18 +25,20 @@ export class ProfileComponent implements OnInit {
   private _badges: Observable<IBadge[]>;
   private _activities: Observable<IActivity[]>;
 
-
   private _testactivities: any[] = [
-    { name: 'Walking', liked: false },
-    { name: 'Jogging', liked: false },
-    { name: 'Running', liked: false },
-    { name: 'Hiking', liked: false },
-    { name: 'Swimming', liked: false },
-    { name: 'Yoga', liked: false },
-    { name: 'Camping-Outdoors', liked: false },
-    { name: 'Camping-Indoors', liked: false },
-    { name: 'Camping-Underwater', liked: false },
+    { name: 'Walking', amount: 1 },
+    { name: 'Jogging', amount: 1 },
+    { name: 'Running', amount: 1 },
+    { name: 'Hiking', amount: 1 },
+    { name: 'Swimming', amount: 1 },
+    { name: 'Yoga', amount: 1 },
+    { name: 'Camping-Outdoors', amount: 1 },
+    { name: 'Camping-Indoors', amount: 1 },
+    { name: 'Camping-Underwater', amount: 1 },
   ];
+
+  private calculateBadgeProgress() {
+  }
 
   get badges() {
     return this._badges;
@@ -43,30 +48,31 @@ export class ProfileComponent implements OnInit {
     return this._user;
   }
 
-  get activities() {
-    return this._activities;
+  get testactivities() {
+    return this._testactivities;
   }
 
   public goBack(): void {
     this._location.back();
   }
 
+  /**
+   * @param _location Provides the 
+   * @param _us Provides the navigation and url manipulation capabilities.
+   * @param _ps Provides the profile interaction with the fire batadase?...
+   * @param _route Provides the route services for 
+   */
   constructor(private _location: Location, private _us: UserService,
-              private _ps: ProfilesService, private _bs: BadgesService,
-              private _as: ActivitiesService, private _route: ActivatedRoute) { }
+              private _ps: ProfilesService, private _route: ActivatedRoute) { }
 
   ngOnInit() {
     this._idSubscription = this._route.params.subscribe(params => {
       const id = params['id'];
       if (id) {
         this._user = this._ps.findProfile(id);
-        this._badges = this._bs.findBadges(id);
-        this._activities = this._as.findActivities(id);
       } else {
         this._us.user.first().subscribe(user => {
           this._user = this._ps.findProfile(user.uid);
-          this._badges = this._bs.findBadges(user.uid);
-          this._activities = this._as.findActivities(user.uid);
         });
       }
     });

@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 
 import { ProfilesService } from '../../core/services/profiles.service';
+import { EventsService } from '../../core/services/events.service';
 
 /**
  * A class for the ViewEventComponent
@@ -23,8 +24,10 @@ export class ViewEventComponent implements OnInit {
    * @param _dialogRef Reference to a dialog opened via the MatDialog service.
    * @param _data Data passed into modal.
    * @param _ps ProfileService that allows querying of public profile.
+   * @param _es EventService that allows checking in of events.
    */
-  constructor(private _dialogRef: MatDialogRef<any>, @Inject(MAT_DIALOG_DATA) private _data: any, private _ps: ProfilesService) {
+  constructor(private _dialogRef: MatDialogRef<any>, @Inject(MAT_DIALOG_DATA) private _data: any,
+              private _ps: ProfilesService, private _es: EventsService) {
     this._event.next(this._data.event);
     this._place.next(this._data.place);
     this._profile = this._ps.findProfile(this._data.event.uid);
@@ -58,6 +61,13 @@ export class ViewEventComponent implements OnInit {
    */
   get profile(): Observable<any> {
     return this._profile;
+  }
+
+  /**
+   * Allows user to check in to an event.
+   */
+  public checkIn(): void {
+    this._es.checkIn(this._data.event.key);
   }
 
   /**
