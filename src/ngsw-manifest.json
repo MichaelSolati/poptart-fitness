@@ -9,6 +9,9 @@
           },
           "https://poptart.fitness/": {
             "match": "prefix"
+          },
+          "http://localhost:8080/": {
+            "match": "prefix"
           }
         },
         "cache": {
