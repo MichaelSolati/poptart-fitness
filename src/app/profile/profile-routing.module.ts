@@ -7,6 +7,9 @@ const routes: Routes = [{
   path: '',
   pathMatch: 'full',
   component: ProfileComponent
+}, {
+  path: ':id',
+  component: ProfileComponent
 }];
 
 @NgModule({

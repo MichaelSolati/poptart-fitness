@@ -40,6 +40,18 @@ export class EventsService {
     return this._nearUser.asObservable();
   }
 
+  public checkIn(id: string, callback?: any) {
+    this._validateCheckIn(id, (error, success) => {
+      // if (error) {
+      //  if (callback) { callback(error, null); }
+      // } else {
+        this._fbDB.list('checkins').push(success).then((result: any) => {
+          if (callback) { callback(null, result); }
+        });
+      // }
+    });
+  }
+
   public create(event: any, callback?: any): void {
     try {
       this._validate(event);
@@ -55,6 +67,10 @@ export class EventsService {
           if (callback) { callback(null, true); }
         });
     });
+  }
+
+  public findById(id: string): Observable<any> {
+    return this._fbDB.object('/events/' + id).valueChanges();
   }
 
   private _geoFetch(coords: LatLngLiteral, radius: number, store: BehaviorSubject<any[]>): void {
@@ -75,11 +91,6 @@ export class EventsService {
     });
   }
 
-  public locationEvents(id: string): Observable<any[]> {
-    return this._fbDB.list('activeEvents', (ref: firebase.database.Reference) => {
-      return ref.orderByChild('placeId').equalTo(String(id));
-    }).valueChanges();
-  }
 
   private _quicksort(c: any[]): any[] {
     if (c.length <= 1) { return c; }
@@ -88,6 +99,14 @@ export class EventsService {
     const more: any[] = [];
     c.forEach((val: any) => (pivot.distance > val.distance) ? less.push(val) : more.push(val));
     return [...this._quicksort(less), pivot, ...this._quicksort(more)];
+  }
+
+  public locationEvents(id: string): Observable<any[]> {
+    return this._fbDB.list('activeEvents', (ref: firebase.database.Reference) => {
+      return ref.orderByChild('placeId').equalTo(String(id));
+    }).snapshotChanges().map((changes: any) => {
+      return changes.map((c) => ({key: c.payload.key, ...c.payload.val()}));
+    });
   }
 
   private _validate(event: any): boolean {
@@ -107,5 +126,17 @@ export class EventsService {
       throw new Error('Please select an activity...');
     }
     return true;
+  }
+
+  private _validateCheckIn(id: any, callback: any) {
+    this._us.user.first().subscribe((user: any) => {
+      this.findById(id).first().subscribe((event: any) => {
+        let error: any;
+        if (event.uid === user.uid) { error = 'You can\'t check in to an event you created!'; }
+        if (event.starts > this._today.getTime()) { error = 'You can\'t check in to an event that hasn\'t started!'; }
+        if (!event.id) { error = 'Whoops! This event doesn\'t seem to exist!'; }
+        callback(error, { eid: id, uid: user.uid, uname: user.displayName, uphoto: user.photoURL });
+      });
+    });
   }
 }

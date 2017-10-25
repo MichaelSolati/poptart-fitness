@@ -72,6 +72,10 @@ export class ExploreComponent implements OnInit, OnDestroy {
     }
   }
 
+  public swipe(event: any): void {
+    this._ls.updatingStop();
+  }
+
   public toggleWatch(): void {
     this._ls.updating.first().subscribe((state: boolean) => {
       (state) ? this._ls.updatingStop() : this._ls.updatingStart();

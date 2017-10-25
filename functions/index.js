@@ -16,12 +16,14 @@ if (serviceAccount) {
 }
 
 const activeEvents = require('./events').activeEvents;
+const checkins = require('./events').checkins;
 const purgeActiveEvents = require('./events').purgeActiveEvents;
 const ct = require('./places').ct;
 const wikipedia = require('./places').wikipedia;
 const user = require('./user').user;
 
 exports.activeEvents = activeEvents;
+exports.checkins = checkins;
 exports.purgeActiveEvents = purgeActiveEvents;
 exports.ct = ct;
 exports.user = user;

@@ -28,6 +28,11 @@ mat-card {
   }
 }
 
+mat-card-content {
+  overflow: auto;
+  height: 100%;
+}
+
 mat-icon.mat-card-avatar {
   padding: 0px 8px;
 }

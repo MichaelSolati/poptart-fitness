@@ -25,6 +25,16 @@ mat-sidenav-container {
   }
 }
 
+mat-toolbar {
+  &.sticky-header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 100% !important;
+  }
+}
+
 pop-home-index {
   mat-tab-group {
     div.mat-tab-body-wrapper {

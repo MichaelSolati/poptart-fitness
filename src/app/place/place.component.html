@@ -11,8 +11,14 @@
     <mat-chip-list>
       <mat-chip *ngFor="let activity of (place | async)?.activities; let i = index" [color]="chip(i)" selected="true">{{activity}}</mat-chip>
     </mat-chip-list>
+    <div>
+      <h3>Wikipedia</h3>
+      <p>{{(place | async)?.description}} </p>
+      <a mat-button class="text-right" *ngIf="(place | async)?.wikipediaId" [href]="'https://en.wikipedia.org/?curid='+(place | async)?.wikipediaId"
+        target="_blank">Read More</a>
+    </div>
     <mat-list>
-      <h3 mat-subheader>Upcoming Events</h3>
+      <h3>Upcoming Events</h3>
       <ng-template ngFor [ngForOf]="events | async" let-event *ngIf="(events | async)?.length; else create">
         <mat-list-item (click)="eventClick(event)">
           <h4 mat-line>{{event.activity + ' event on ' + (event.starts | date)}}</h4>

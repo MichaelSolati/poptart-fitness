@@ -15,8 +15,9 @@
 		"profiles": {
 			".indexOn": "email"
 		},
-		"userBadges": {
-			".indexOn": "uid"
+		"checkins": {
+			".write": "auth != null",
+			".indexOn": [ "uid", "eid" ]
 		}
 	}
 }
