@@ -4,12 +4,15 @@ import { Observable } from 'rxjs/Observable';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase';
 
+import { IUser } from '../interfaces';
+export { IUser } from '../interfaces';
+
 /**
  * A class for the UserService
  */
 @Injectable()
 export class UserService {
-  private _user: Observable<any>;
+  private _user: Observable<IUser>;
 
   /**
    * @param _fbAuth The Firebase Auth service.
@@ -22,7 +25,7 @@ export class UserService {
    * Getter for user auth object.
    * @returns User auth object as observable.
    */
-  get user(): Observable<any> {
+  get user(): Observable<IUser> {
     return this._user;
   }
 
