@@ -52,8 +52,8 @@
       <mat-card-title>Created Events</mat-card-title>
       <mat-card-content>
         <ng-template ngFor let-event let-last="last" [ngForOf]="eventsCreated | async">
-          <mat-list-item>
-            <h4 mat-line>{{event.activity}} on {{event.starts | date}}</h4>
+          <mat-list-item [routerLink]="['/', 'place', event.placeId]" [fragment]="event.$key">
+            <h4 mat-line>{{event.placeName}} on {{event.starts | date}}</h4>
             <p mat-line>{{event.description}}</p>
           </mat-list-item>
           <mat-divider *ngIf="!last"></mat-divider>
@@ -66,10 +66,9 @@
       <mat-card-title>Attended Events</mat-card-title>
       <mat-card-content>
         <ng-template ngFor let-event let-last="last" [ngForOf]="eventsAttended | async">
-          <mat-list-item>
-            {{event | json}}
-            <!-- <h4 mat-line>{{event.activity}} on {{event.starts | date}}</h4>
-            <p mat-line>{{event.description}}</p> -->
+          <mat-list-item [routerLink]="['/', 'place', event.placeId]" [fragment]="event.eventId">
+            <h4 mat-line>{{event.placeName}} on {{event.starts | date}}</h4>
+            <p mat-line>{{event.description}}</p>
           </mat-list-item>
           <mat-divider *ngIf="!last"></mat-divider>
         </ng-template>

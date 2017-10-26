@@ -9,6 +9,7 @@ export interface IEvent {
   hash: string;
   id?: string;
   placeId: string;
+  placeName: string;
   starts: number;
   uid: string;
   $key?: string;

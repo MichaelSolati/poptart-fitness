@@ -43,7 +43,7 @@ export class ProfilesService {
     this._eventsAttended = this._fbDB.list('checkins', (ref: firebase.database.Reference) => {
       return ref.orderByChild('uid').equalTo(String(id));
     }).snapshotChanges().map((changes: any) => {
-      return changes.map((c) => ({ key: c.payload.key, ...c.payload.val() }));
+      return changes.map((c) => ({ $key: c.payload.key, ...c.payload.val() }));
     });
   }
 
@@ -55,7 +55,7 @@ export class ProfilesService {
     this._eventsCreated = this._fbDB.list('events', (ref: firebase.database.Reference) => {
       return ref.orderByChild('uid').equalTo(String(id));
     }).snapshotChanges().map((changes: any) => {
-      return changes.map((c) => ({ key: c.payload.key, ...c.payload.val() }));
+      return changes.map((c) => ({ $key: c.payload.key, ...c.payload.val() }));
     });
   }
 

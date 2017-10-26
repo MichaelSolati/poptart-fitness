@@ -1,5 +1,10 @@
 export interface ICheckin {
-  eid: string;
+  activity: string;
+  description: string;
+  eventId: string;
+  placeName: string;
+  placeId: string;
+  starts: number;
   uid: string;
   uname: string;
   uphoto: string;

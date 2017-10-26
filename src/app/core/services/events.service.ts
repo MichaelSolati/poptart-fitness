@@ -8,11 +8,15 @@ import { LatLngLiteral } from '@agm/core';
 import { Geokit } from 'geokit';
 import 'rxjs/add/operator/first';
 
-import { IEvent } from '../interfaces';
-export { IEvent } from '../interfaces';
+import { IEvent, ICheckin, IUser } from '../interfaces';
+export { IEvent, ICheckin } from '../interfaces';
 
 import { LocationService } from './location.service';
 import { UserService } from './user.service';
+
+interface ICheckinCallback {
+  (error: string, result: ICheckin);
+}
 
 @Injectable()
 export class EventsService {
@@ -44,7 +48,7 @@ export class EventsService {
   }
 
   public checkIn(id: string, callback?: any) {
-    this._validateCheckIn(id, (error, success) => {
+    this._validateCheckIn(id, (error: string, success: ICheckin) => {
       // if (error) {
       //  if (callback) { callback(error, null); }
       // } else {
@@ -131,14 +135,24 @@ export class EventsService {
     return true;
   }
 
-  private _validateCheckIn(id: string, callback: any) {
-    this._us.user.first().subscribe((user: any) => {
+  private _validateCheckIn(id: string, callback: ICheckinCallback) {
+    this._us.user.first().subscribe((user: IUser) => {
       this.findById(id).first().subscribe((event: IEvent) => {
         let error: string;
         if (event.uid === user.uid) { error = 'You can\'t check in to an event you created!'; }
         if (event.starts > this._today.getTime()) { error = 'You can\'t check in to an event that hasn\'t started!'; }
         if (!event.id) { error = 'Whoops! This event doesn\'t seem to exist!'; }
-        callback(error, { eid: id, uid: user.uid, uname: user.displayName, uphoto: user.photoURL });
+        callback(error, {
+          activity: event.activity,
+          description: event.description,
+          eventId: id,
+          placeName: event.placeName,
+          placeId: event.placeId,
+          starts: event.starts,
+          uid: user.uid,
+          uname: user.displayName,
+          uphoto: user.photoURL
+        });
       });
     });
   }
