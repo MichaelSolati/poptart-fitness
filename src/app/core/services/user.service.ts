@@ -4,22 +4,45 @@ import { Observable } from 'rxjs/Observable';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase';
 
+/**
+ * A class for the UserService
+ */
 @Injectable()
 export class UserService {
-  constructor(private _fbAuth: AngularFireAuth) { }
+  private _user: Observable<any>;
 
-  get user(): Observable<any> {
-    return this._fbAuth.authState;
+  /**
+   * @param _fbAuth The Firebase Auth service.
+   */
+  constructor(private _fbAuth: AngularFireAuth) {
+    this._user = this._fbAuth.authState;
   }
 
+  /**
+   * Getter for user auth object.
+   * @returns User auth object as observable.
+   */
+  get user(): Observable<any> {
+    return this._user;
+  }
+
+  /**
+   * Signs user in with any social auth provider Firebase provides.
+   * @param provider Firebase auth provider.
+   * @param callback Optional function to execute after sign in is complete.
+   */
   private _signIn(provider: any, callback?: any): void {
     this._fbAuth.auth.signInWithPopup(provider).then((result: any) => {
-        if (callback) { callback(null, result); }
-      }).catch((error: Error) => {
-        if (callback) { callback(error, null); }
+      if (callback) { callback(null, result); }
+    }).catch((error: Error) => {
+      if (callback) { callback(error, null); }
     });
   }
 
+  /**
+   * Signs user in with Facebook.
+   * @param callback Optional function to execute after sign in is complete.
+   */
   public signInFacebook(callback?: any): void {
     const provider = new firebase.auth.FacebookAuthProvider();
     this._signIn(provider, (error: Error, result: any) => {
@@ -27,6 +50,10 @@ export class UserService {
     });
   }
 
+  /**
+   * Signs user in with Google.
+   * @param callback Optional function to execute after sign in is complete.
+   */
   public signInGoogle(callback?: any): void {
     const provider = new firebase.auth.GoogleAuthProvider();
     this._signIn(provider, (error: Error, result: any) => {
@@ -34,6 +61,10 @@ export class UserService {
     });
   }
 
+  /**
+   * Signs user in with Twitter.
+   * @param callback Optional function to execute after sign in is complete.
+   */
   public signInTwitter(callback?: any): void {
     const provider = new firebase.auth.TwitterAuthProvider();
     this._signIn(provider, (error: Error, result: any) => {
@@ -41,6 +72,10 @@ export class UserService {
     });
   }
 
+  /**
+   * Signs user out of application.
+   * @param callback Optional function to execute after sign out is complete.
+   */
   public signOut(callback?: any): void {
     this._fbAuth.auth.signOut()
       .then((result: any) => {
@@ -50,4 +85,3 @@ export class UserService {
       });
   }
 }
-
