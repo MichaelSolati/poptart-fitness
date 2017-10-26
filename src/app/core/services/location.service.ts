@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
-import { LatLngLiteral } from '@agm/core';
+import { LatLngLiteral } from 'geokit';
+export { LatLngLiteral } from 'geokit';
 
 @Injectable()
 export class LocationService {

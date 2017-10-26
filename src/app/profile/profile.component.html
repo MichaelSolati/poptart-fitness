@@ -26,7 +26,9 @@
               <p>Badge of {{badge.name}}</p>
               <mat-progress-bar [value]="badge.progress"></mat-progress-bar>
               <p>{{badge.progress}}</p>
-              <h5><i>{{badge.description}}</i></h5>
+              <h5>
+                <i>{{badge.description}}</i>
+              </h5>
             </div>
           </mat-card-content>
         </mat-card>
@@ -41,5 +43,37 @@
         </mat-card>
       </div>
     </section>
+  </div>
+</section>
+
+<section fxLayout="column" fxLayout.gt-xs="row" fxLayoutWrap>
+  <div fxFlex.gt-sm="50" class="padding" *ngIf="(eventsCreated | async)?.length > 0">
+    <mat-card>
+      <mat-card-title>Created Events</mat-card-title>
+      <mat-card-content>
+        <ng-template ngFor let-event let-last="last" [ngForOf]="eventsCreated | async">
+          <mat-list-item>
+            <h4 mat-line>{{event.activity}} on {{event.starts | date}}</h4>
+            <p mat-line>{{event.description}}</p>
+          </mat-list-item>
+          <mat-divider *ngIf="!last"></mat-divider>
+        </ng-template>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div fxFlex.gt-sm="50" class="padding" *ngIf="(eventsAttended | async)?.length > 0">
+    <mat-card>
+      <mat-card-title>Attended Events</mat-card-title>
+      <mat-card-content>
+        <ng-template ngFor let-event let-last="last" [ngForOf]="eventsAttended | async">
+          <mat-list-item>
+            {{event | json}}
+            <!-- <h4 mat-line>{{event.activity}} on {{event.starts | date}}</h4>
+            <p mat-line>{{event.description}}</p> -->
+          </mat-list-item>
+          <mat-divider *ngIf="!last"></mat-divider>
+        </ng-template>
+      </mat-card-content>
+    </mat-card>
   </div>
 </section>

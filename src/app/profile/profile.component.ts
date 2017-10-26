@@ -55,6 +55,22 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Get function for events attended by user.
+   * @returns Observable of events attended by user.
+   */
+  get eventsAttended(): Observable<any> {
+    return this._ps.eventsAttended;
+  }
+
+  /**
+   * Get function for events created by user.
+   * @returns Observable of events created by user.
+   */
+  get eventsCreated(): Observable<any> {
+    return this._ps.eventsCreated;
+  }
+
+  /**
    * Get function for user's profile observable.
    * @returns Observable of user's profile.
    */
