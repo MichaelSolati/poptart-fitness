@@ -47,7 +47,7 @@ export class EventsService {
     return this._nearUser.asObservable();
   }
 
-  public checkIn(id: string, callback?: any) {
+  public checkIn(id: string, callback?: any): void {
     this._validateCheckIn(id, (error: string, success: ICheckin) => {
       // if (error) {
       //  if (callback) { callback(error, null); }
@@ -76,8 +76,16 @@ export class EventsService {
     });
   }
 
-  public findById(id: string): Observable<any> {
+  public findById(id: string): Observable<IEvent> {
     return this._fbDB.object('/events/' + id).valueChanges().map((event: IEvent) => ({ $key: id, ...event }));
+  }
+
+  public findCheckins(id: string): Observable<ICheckin[]> {
+    return this._fbDB.list('checkins', (ref: firebase.database.Reference) => {
+      return ref.orderByChild('eventId').equalTo(String(id));
+    }).snapshotChanges().map((changes: any) => {
+      return changes.map((c) => ({ $key: c.payload.key, ...c.payload.val() }));
+    });
   }
 
   private _geoFetch(coords: LatLngLiteral, radius: number, store: BehaviorSubject<IEvent[]>): void {

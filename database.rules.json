@@ -17,7 +17,7 @@
 		},
 		"checkins": {
 			".write": "auth != null",
-			".indexOn": [ "uid", "eid" ]
+			".indexOn": [ "uid", "eventId" ]
 		}
 	}
 }
