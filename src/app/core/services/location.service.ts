@@ -47,6 +47,9 @@ export class LocationService {
     this._mapCenter.next(coordinates);
   }
 
+  /**
+   * Enables updating of center of map by users location.
+   */
   public updatingStart(): void {
     this._mapCenter.next(this._coordinates.value);
     this._updating.next(true);

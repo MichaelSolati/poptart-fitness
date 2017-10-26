@@ -4,6 +4,9 @@ import { Observable } from 'rxjs/Observable';
 
 import { EventsService, PlacesService } from '../../core/services';
 
+/**
+ * A class for the NearbyComponent
+ */
 @Component({
   moduleId: module.id,
   selector: 'pop-home-nearby',
@@ -16,29 +19,41 @@ export class NearbyComponent implements OnInit {
   set active(active: string) {
       switch (active) {
         case 'Events':
-          this._places = this._es.nearUser;
+          this._items = this._es.nearUser;
           this._active = 'Events';
           break;
         default:
-          this._places = this._ps.nearUser;
+          this._items = this._ps.nearUser;
           this._active = 'Places';
           break;
       }
   }
-  private _places: Observable<any[]>;
+  private _items: Observable<any[]>;
 
-  constructor(private _es: EventsService, private _ps: PlacesService, private _router: Router) {
-    this._places = this._ps.nearUser;
+  /**
+   * @param _es EventsService to get all events near center of map.
+   * @param _ps PacesService to query places near center of map.
+   */
+  constructor(private _es: EventsService, private _ps: PlacesService) {
+    this._items = this._ps.nearUser;
   }
 
   ngOnInit() {
   }
 
+  /**
+   * Get function for title of current mode: Events, Places.
+   * @returns Active title.
+   */
   get active(): string {
     return this._active;
   }
 
-  get places(): Observable<any[]> {
-    return this._places;
+  /**
+   * Get function for event or place items for list.
+   * @returns Observable of items.
+   */
+  get items(): Observable<any[]> {
+    return this._items;
   }
 }

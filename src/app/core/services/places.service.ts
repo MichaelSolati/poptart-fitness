@@ -50,8 +50,9 @@ export class PlacesService {
       center: [coords.lat, coords.lng],
       radius: radius
     }).on('key_entered', (key: string, result: IPlace) => {
+      result.$key = key;
       let places: IPlace[] = [...store.value];
-      if (places.find((place: IPlace) => place.id === result.id)) { return; }
+      if (places.find((place: IPlace) => place.$key === result.$key)) { return; }
       places.push(result);
       places.map((place: IPlace) => place.distance = this._geoKit.distance(coords, place.coordinates, 'miles'));
       places = this._quicksort(places);
