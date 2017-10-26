@@ -33,7 +33,7 @@ export class ViewEventComponent implements OnInit {
     private _ps: ProfilesService, private _es: EventsService, private _router: Router) {
     this._event.next(this._data.event);
     this._place.next(this._data.place);
-    this._profile = this._ps.findProfile(this._data.event.uid);
+    this._profile = this._ps.findById(this._data.event.uid);
   }
 
   /**
@@ -70,7 +70,8 @@ export class ViewEventComponent implements OnInit {
    * Allows user to check in to an event.
    */
   public checkIn(): void {
-    this._es.checkIn(this._data.event.key);
+    console.log(this._data.event.$key);
+    this._es.checkIn(this._data.event.$key);
   }
 
   /**

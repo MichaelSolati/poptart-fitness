@@ -64,9 +64,9 @@ export class ProfilesService {
    * @param id User's ID.
    * @returns User's profile as observable
    */
-  public findProfile(id: string): Observable<IProfile> {
+  public findById(id: string): Observable<IProfile> {
     this._fetchEventsAttended(id);
     this._fetchEventsCreated(id);
-    return this._fbDB.object('/profiles/' + id).valueChanges();
+    return this._fbDB.object('/profiles/' + id).valueChanges().map((event: IProfile) => ({ $key: id, ...event }));
   }
 }

@@ -77,7 +77,7 @@ export class EventsService {
   }
 
   public findById(id: string): Observable<any> {
-    return this._fbDB.object('/events/' + id).valueChanges();
+    return this._fbDB.object('/events/' + id).valueChanges().map((event: IEvent) => ({ $key: id, ...event }));
   }
 
   private _geoFetch(coords: LatLngLiteral, radius: number, store: BehaviorSubject<IEvent[]>): void {
@@ -112,7 +112,7 @@ export class EventsService {
     return this._fbDB.list('activeEvents', (ref: firebase.database.Reference) => {
       return ref.orderByChild('placeId').equalTo(String(id));
     }).snapshotChanges().map((changes: any) => {
-      return changes.map((c) => ({ key: c.payload.key, ...c.payload.val() }));
+      return changes.map((c) => ({ $key: c.payload.key, ...c.payload.val() }));
     });
   }
 
@@ -137,7 +137,9 @@ export class EventsService {
 
   private _validateCheckIn(id: string, callback: ICheckinCallback) {
     this._us.user.first().subscribe((user: IUser) => {
+      if (!user) { return callback('You must be signed in to check in to an event', null); }
       this.findById(id).first().subscribe((event: IEvent) => {
+        if (!event) { return callback('Sorry, but that event doesn\'t exist!', null); }
         let error: string;
         if (event.uid === user.uid) { error = 'You can\'t check in to an event you created!'; }
         if (event.starts > this._today.getTime()) { error = 'You can\'t check in to an event that hasn\'t started!'; }

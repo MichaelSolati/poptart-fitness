@@ -41,7 +41,7 @@ export class PlacesService {
   }
 
   public findById(id: string): Observable<IPlace> {
-    return this._fbDB.object('/places/' + id).valueChanges();
+    return this._fbDB.object('/places/' + id).valueChanges().map((event: IPlace) => ({ $key: id, ...event }));
   }
 
   private _geoFetch(coords: LatLngLiteral, radius: number, store: BehaviorSubject<IPlace[]>): void {

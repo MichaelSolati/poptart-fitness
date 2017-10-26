@@ -37,10 +37,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this._idSubscription = this._route.params.subscribe(params => {
       const id = params['id'];
       if (id) {
-        this._user = this._ps.findProfile(id);
+        this._user = this._ps.findById(id);
       } else {
         this._us.user.first().subscribe(user => {
-          this._user = this._ps.findProfile(user.uid);
+          this._user = this._ps.findById(user.uid);
         });
       }
     });

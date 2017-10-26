@@ -29,7 +29,7 @@ export class ProfileGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    return this._ps.findProfile(next.params.id).concatMap((profile: IProfile) => {
+    return this._ps.findById(next.params.id).concatMap((profile: IProfile) => {
       if (profile) {
         return Observable.of(true);
       } else if (!next.params.id) {

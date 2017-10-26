@@ -55,6 +55,9 @@ export class LocationService {
     this._updating.next(true);
   }
 
+  /**
+   * Disabled updating of center of map by users location.
+   */
   public updatingStop(): void {
     this._updating.next(false);
   }
