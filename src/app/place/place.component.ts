@@ -124,10 +124,7 @@ export class PlaceComponent implements OnInit, OnDestroy {
    */
   public createEvent(): void {
     this.place.first().subscribe((place: any) => {
-      this._dialog.open(CreateEventComponent, {
-        width: '400px',
-        data: { place: place }
-      });
+      this._dialog.open(CreateEventComponent, { data: { place: place } });
     });
   }
 
@@ -157,10 +154,7 @@ export class PlaceComponent implements OnInit, OnDestroy {
    */
   public viewEvent(event: IEvent): void {
     this.place.first().subscribe((place: IPlace) => {
-      this._dialog.open(ViewEventComponent, {
-        width: '400px',
-        data: { event: event, place: place }
-      });
+      this._dialog.open(ViewEventComponent, { data: { event: event, place: place } });
     });
   }
 }
