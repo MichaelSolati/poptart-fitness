@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 
-import { UserGuard, NoUserGuard, PlaceGuard } from './core/guards';
+import { UserGuard, NoUserGuard, PlaceGuard, ProfileGuard } from './core/guards';
 
 const routes: Routes = [{
   path: '',
@@ -18,7 +18,7 @@ const routes: Routes = [{
 }, {
   path: 'profile',
   loadChildren: 'app/profile/profile.module#ProfileModule',
-  canActivateChild: [UserGuard]
+  canActivateChild: [ProfileGuard]
 }, {
   path: '**',
   redirectTo: '/'
