@@ -4,7 +4,8 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/first';
 
-import { EventsService } from '../../core/services';
+import { EventsService, IEvent, IPlace } from '../../core/services';
+import { ActivityRename } from '../../core/pipes/activity-rename.pipe';
 
 /**
  * A class for the CreateEventComponent
@@ -19,7 +20,7 @@ export class CreateEventComponent implements OnInit {
   private _activity: string;
   private _description: string;
   private _ends: Date;
-  private _place: BehaviorSubject<any> = new BehaviorSubject<any>({});
+  private _place: BehaviorSubject<IPlace> = new BehaviorSubject<IPlace>(null);
   private _starts: Date;
   private _today: Date = new Date();
 
@@ -60,10 +61,10 @@ export class CreateEventComponent implements OnInit {
   }
 
   /**
- * Gets place as observable
- * @returns Observable of place object.
- */
-  get place(): Observable<any> {
+   * Gets place as observable
+   * @returns Observable of place object.
+   */
+  get place(): Observable<IPlace> {
     return this._place.asObservable();
   }
 
@@ -76,17 +77,17 @@ export class CreateEventComponent implements OnInit {
   }
 
   /**
- * Gets Date object of today.
- * @returns Date object of today.
- */
+   * Gets Date object of today.
+   * @returns Date object of today.
+   */
   get today(): Date {
     return this._today;
   }
 
   /**
-  * Sets activity value.
-  * @param activity User selected activity string.
-  */
+    * Sets activity value.
+    * @param activity User selected activity string.
+    */
   set activity(activity: string) {
     this._activity = activity;
   }
@@ -130,15 +131,17 @@ export class CreateEventComponent implements OnInit {
   * Creates event and closes modal if successful.
   */
   public create(): void {
-    this._place.first().subscribe((place: any) => {
-      const event: any = {
+    this._place.first().subscribe((place: IPlace) => {
+      const event: IEvent = {
         starts: this._starts.getTime(),
         ends: this._ends.getTime(),
         activity: this._activity,
         description: this._description,
         hash: place.hash,
         placeId: place.id,
-        coordinates: place.coordinates
+        placeName: place.name,
+        coordinates: place.coordinates,
+        uid: null
       };
       this._es.create(event, (error: Error, success: any) => {
         if (error) {

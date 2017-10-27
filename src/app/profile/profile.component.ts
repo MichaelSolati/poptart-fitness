@@ -37,10 +37,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this._idSubscription = this._route.params.subscribe(params => {
       const id = params['id'];
       if (id) {
-        this._user = this._ps.findProfile(id);
+        this._user = this._ps.findById(id);
       } else {
         this._us.user.first().subscribe(user => {
-          this._user = this._ps.findProfile(user.uid);
+          this._user = this._ps.findById(user.uid);
         });
       }
     });
@@ -52,6 +52,22 @@ export class ProfileComponent implements OnInit, OnDestroy {
    */
   ngOnDestroy() {
     this._idSubscription.unsubscribe();
+  }
+
+  /**
+   * Get function for events attended by user.
+   * @returns Observable of events attended by user.
+   */
+  get eventsAttended(): Observable<any> {
+    return this._ps.eventsAttended;
+  }
+
+  /**
+   * Get function for events created by user.
+   * @returns Observable of events created by user.
+   */
+  get eventsCreated(): Observable<any> {
+    return this._ps.eventsCreated;
   }
 
   /**

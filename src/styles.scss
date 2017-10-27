@@ -16,6 +16,10 @@ $text: #212121;
 $background: rgb(214, 214, 214);
 $white: #FFFFFF;
 
+* {
+  word-wrap: break-word;
+}
+
 body {
   font-family: 'Roboto', sans-serif;
   background: $background;

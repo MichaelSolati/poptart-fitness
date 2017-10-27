@@ -8,16 +8,23 @@ import { LatLngLiteral } from '@agm/core';
 import { Geokit } from 'geokit';
 import 'rxjs/add/operator/first';
 
+import { IEvent, ICheckin, IUser } from '../interfaces';
+export { IEvent, ICheckin } from '../interfaces';
+
 import { LocationService } from './location.service';
 import { UserService } from './user.service';
+
+interface ICheckinCallback {
+  (error: string, result: ICheckin);
+}
 
 @Injectable()
 export class EventsService {
   private _dbRef: any;
   private _geoFire: any;
   private _geoKit: Geokit = new Geokit();
-  private _nearMapCenter: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
-  private _nearUser: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  private _nearMapCenter: BehaviorSubject<IEvent[]> = new BehaviorSubject<IEvent[]>([]);
+  private _nearUser: BehaviorSubject<IEvent[]> = new BehaviorSubject<IEvent[]>([]);
   private _today: Date = new Date();
 
   constructor(private _fbDB: AngularFireDatabase, private _ls: LocationService, private _us: UserService) {
@@ -32,23 +39,23 @@ export class EventsService {
     });
   }
 
-  get nearMapCenter(): Observable<any[]> {
+  get nearMapCenter(): Observable<IEvent[]> {
     return this._nearMapCenter.asObservable();
   }
 
-  get nearUser(): Observable<any[]> {
+  get nearUser(): Observable<IEvent[]> {
     return this._nearUser.asObservable();
   }
 
-  public checkIn(id: string, callback?: any) {
-    this._validateCheckIn(id, (error, success) => {
-      // if (error) {
-      //  if (callback) { callback(error, null); }
-      // } else {
-        this._fbDB.list('checkins').push(success).then((result: any) => {
-          if (callback) { callback(null, result); }
-        });
-      // }
+  public checkIn(id: string, callback?: any): void {
+    this._validateCheckIn(id, (error: string, success: ICheckin) => {
+      if (error) {
+        if (callback) { callback(error, null); }
+      } else {
+      this._fbDB.list('checkins').push(success).then((result: any) => {
+        if (callback) { callback(null, result); }
+      });
+      }
     });
   }
 
@@ -69,22 +76,30 @@ export class EventsService {
     });
   }
 
-  public findById(id: string): Observable<any> {
-    return this._fbDB.object('/events/' + id).valueChanges();
+  public findById(id: string): Observable<IEvent> {
+    return this._fbDB.object('/events/' + id).valueChanges().map((event: IEvent) => ({ $key: id, ...event }));
   }
 
-  private _geoFetch(coords: LatLngLiteral, radius: number, store: BehaviorSubject<any[]>): void {
+  public findCheckins(id: string): Observable<ICheckin[]> {
+    return this._fbDB.list('checkins', (ref: firebase.database.Reference) => {
+      return ref.orderByChild('eventId').equalTo(String(id));
+    }).snapshotChanges().map((changes: any) => {
+      return changes.map((c) => ({ $key: c.payload.key, ...c.payload.val() }));
+    });
+  }
+
+  private _geoFetch(coords: LatLngLiteral, radius: number, store: BehaviorSubject<IEvent[]>): void {
     const max = 100;
     this._geoFire.query({
       center: [coords.lat, coords.lng],
       radius: radius
-    }).on('key_entered', (key: string, result: any) => {
+    }).on('key_entered', (key: string, result: IEvent) => {
       result.$key = key;
-      let events: any[] = [...store.value];
+      let events: IEvent[] = [...store.value];
       if (result.starts < this._today.getTime()) { return; }
-      if (events.find((event: any) => event.id === result.id)) { return; }
+      if (events.find((event: IEvent) => event.id === result.id)) { return; }
       events.push(result);
-      events.map((event: any) => event.distance = this._geoKit.distance(coords, event.coordinates, 'miles'));
+      events.map((event: IEvent) => event.distance = this._geoKit.distance(coords, event.coordinates, 'miles'));
       events = this._quicksort(events);
       if (events.length > max) { events = events.slice(max); }
       store.next(events);
@@ -101,41 +116,60 @@ export class EventsService {
     return [...this._quicksort(less), pivot, ...this._quicksort(more)];
   }
 
-  public locationEvents(id: string): Observable<any[]> {
+  public locationEvents(id: string): Observable<IEvent[]> {
     return this._fbDB.list('activeEvents', (ref: firebase.database.Reference) => {
       return ref.orderByChild('placeId').equalTo(String(id));
     }).snapshotChanges().map((changes: any) => {
-      return changes.map((c) => ({key: c.payload.key, ...c.payload.val()}));
+      return changes.map((c) => ({ $key: c.payload.key, ...c.payload.val() }));
     });
   }
 
-  private _validate(event: any): boolean {
+  private _validate(event: IEvent): boolean {
     if (!event.description) {
       throw new Error('Hey, you need a description!');
     }
-
     if (event.starts <= this._today.getTime() || !event.starts) {
       throw new Error('Your event can\'t start today');
     }
-
     if (event.starts > event.ends || !event.ends) {
       throw new Error('You can\'t end in the past');
     }
-
     if (!event.activity) {
       throw new Error('Please select an activity...');
     }
     return true;
   }
 
-  private _validateCheckIn(id: any, callback: any) {
-    this._us.user.first().subscribe((user: any) => {
-      this.findById(id).first().subscribe((event: any) => {
-        let error: any;
-        if (event.uid === user.uid) { error = 'You can\'t check in to an event you created!'; }
-        if (event.starts > this._today.getTime()) { error = 'You can\'t check in to an event that hasn\'t started!'; }
-        if (!event.id) { error = 'Whoops! This event doesn\'t seem to exist!'; }
-        callback(error, { eid: id, uid: user.uid, uname: user.displayName, uphoto: user.photoURL });
+  private _validateCheckIn(id: string, callback: ICheckinCallback) {
+    this._us.user.first().subscribe((user: IUser) => {
+      if (!user) { return callback('You must be signed in to check in to an event', null); }
+      this.findById(id).first().subscribe((event: IEvent) => {
+        if (!event) { return callback('Sorry, but that event doesn\'t exist!', null); }
+        this._ls.coordinates.first().subscribe((userlocation: LatLngLiteral) => {
+          if (this._geoKit.distance(event.coordinates, userlocation) > .5) {
+            return callback('You must be closer to the location of the event to check in!', null);
+          }
+          let error: string;
+          if (event.uid === user.uid) {
+            error = 'You can\'t check in to an event if you are the host!';
+          } else if (event.starts > this._today.getTime()) {
+            error = 'You can\'t check in to an event that hasn\'t started!';
+          } else if ((event.ends < this._today.getTime()) ||
+                    (event.ends < this._today.getTime() + 86400000 && event.starts === event.ends)) {
+            error = 'You can\'t check in to an event that is already over!';
+          }
+          callback(error, {
+            activity: event.activity,
+            description: event.description,
+            eventId: id,
+            placeName: event.placeName,
+            placeId: event.placeId,
+            starts: event.starts,
+            uid: user.uid,
+            uname: user.displayName,
+            uphoto: user.photoURL
+          });
+        });
       });
     });
   }

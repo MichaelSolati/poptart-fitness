@@ -9,13 +9,16 @@ import { Geokit } from 'geokit';
 
 import { LocationService } from './location.service';
 
+import { IPlace } from '../interfaces';
+export { IPlace } from '../interfaces';
+
 @Injectable()
 export class PlacesService {
   private _dbRef: any;
   private _geoFire: any;
   private _geoKit: Geokit = new Geokit();
-  private _nearMapCenter: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
-  private _nearUser: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  private _nearMapCenter: BehaviorSubject<IPlace[]> = new BehaviorSubject<IPlace[]>([]);
+  private _nearUser: BehaviorSubject<IPlace[]> = new BehaviorSubject<IPlace[]>([]);
 
   constructor(private _fbDB: AngularFireDatabase, private _ls: LocationService) {
     this._dbRef = firebase.database().ref('places');
@@ -29,40 +32,41 @@ export class PlacesService {
     });
   }
 
-  get nearMapCenter(): Observable<any[]> {
+  get nearMapCenter(): Observable<IPlace[]> {
     return this._nearMapCenter.asObservable();
   }
 
-  get nearUser(): Observable<any[]> {
+  get nearUser(): Observable<IPlace[]> {
     return this._nearUser.asObservable();
   }
 
-  public findById(id: string): Observable<any> {
-    return this._fbDB.object('/places/' + id).valueChanges();
+  public findById(id: string): Observable<IPlace> {
+    return this._fbDB.object('/places/' + id).valueChanges().map((event: IPlace) => ({ $key: id, ...event }));
   }
 
-  private _geoFetch(coords: LatLngLiteral, radius: number, store: BehaviorSubject<any[]>): void {
+  private _geoFetch(coords: LatLngLiteral, radius: number, store: BehaviorSubject<IPlace[]>): void {
     const max = 100;
     this._geoFire.query({
       center: [coords.lat, coords.lng],
       radius: radius
-    }).on('key_entered', (key: string, result: any) => {
-      let places: any[] = [...store.value];
-      if (places.find((place: any) => place.id === result.id)) { return; }
+    }).on('key_entered', (key: string, result: IPlace) => {
+      result.$key = key;
+      let places: IPlace[] = [...store.value];
+      if (places.find((place: IPlace) => place.$key === result.$key)) { return; }
       places.push(result);
-      places.map((place: any) => place.distance = this._geoKit.distance(coords, place.coordinates, 'miles'));
+      places.map((place: IPlace) => place.distance = this._geoKit.distance(coords, place.coordinates, 'miles'));
       places = this._quicksort(places);
       if (places.length > max) { places = places.slice(max); }
       store.next(places);
     });
   }
 
-  private _quicksort(c: any[]): any[] {
+  private _quicksort(c: IPlace[]): IPlace[] {
     if (c.length <= 1) { return c; }
-    const pivot: any = c.pop();
-    const less: any[] = [];
-    const more: any[] = [];
-    c.forEach((val: any) => (pivot.distance > val.distance) ? less.push(val) : more.push(val));
+    const pivot: IPlace = c.pop();
+    const less: IPlace[] = [];
+    const more: IPlace[] = [];
+    c.forEach((val: IPlace) => (pivot.distance > val.distance) ? less.push(val) : more.push(val));
     return [...this._quicksort(less), pivot, ...this._quicksort(more)];
   }
 }

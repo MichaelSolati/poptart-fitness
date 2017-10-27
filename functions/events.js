@@ -28,7 +28,7 @@ exports.checkins = functions.database.ref('/checkins/{checkinId}').onCreate((eve
   const events = admin.database().ref('/events');
   const checkins = admin.database().ref('/checkins');
 
-  events.child(checkin.eid).on('value', (snapshot) => {
+  events.child(checkin.eventId).on('value', (snapshot) => {
     const event = snapshot.val();
     if (!event) { 
       return checkins.child(event.params.checkinId).remove();

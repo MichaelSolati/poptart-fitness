@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
-import { LatLngLiteral } from '@agm/core';
+import { LatLngLiteral } from 'geokit';
+export { LatLngLiteral } from 'geokit';
 
 @Injectable()
 export class LocationService {
@@ -46,11 +47,17 @@ export class LocationService {
     this._mapCenter.next(coordinates);
   }
 
+  /**
+   * Enables updating of center of map by users location.
+   */
   public updatingStart(): void {
     this._mapCenter.next(this._coordinates.value);
     this._updating.next(true);
   }
 
+  /**
+   * Disabled updating of center of map by users location.
+   */
   public updatingStop(): void {
     this._updating.next(false);
   }
