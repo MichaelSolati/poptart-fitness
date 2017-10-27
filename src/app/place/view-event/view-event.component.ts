@@ -28,9 +28,10 @@ export class ViewEventComponent implements OnInit {
    * @param _ps ProfileService that allows querying of public profile.
    * @param _es EventService that allows checking in of events.
    * @param _router Provides the navigation and url manipulation capabilities.
+   * @param _snackBar Service to dispatch Material Design snack bar messages.
    */
   constructor(private _dialogRef: MatDialogRef<any>, @Inject(MAT_DIALOG_DATA) private _data: any,
-    private _ps: ProfilesService, private _es: EventsService, private _router: Router) {
+    private _ps: ProfilesService, private _es: EventsService, private _router: Router, private _snackbar: MatSnackBar) {
     this._event.next(this._data.event);
     this._place.next(this._data.place);
     this._profile = this._ps.findById(this._data.event.uid);
@@ -79,7 +80,13 @@ export class ViewEventComponent implements OnInit {
    * Allows user to check in to an event.
    */
   public checkIn(): void {
-    this._es.checkIn(this._data.event.$key);
+    this._es.checkIn(this._data.event.$key, (error, success) => {
+      if (error) {
+        this._snackbar.open(error, null, { duration: 3000 });
+      } else {
+        this._snackbar.open('You have checked in to the event! Welcome!', null, {duration: 3000});
+      }
+    });
   }
 
   /**

@@ -49,13 +49,13 @@ export class EventsService {
 
   public checkIn(id: string, callback?: any): void {
     this._validateCheckIn(id, (error: string, success: ICheckin) => {
-      // if (error) {
-      //  if (callback) { callback(error, null); }
-      // } else {
+      if (error) {
+        if (callback) { callback(error, null); }
+      } else {
       this._fbDB.list('checkins').push(success).then((result: any) => {
         if (callback) { callback(null, result); }
       });
-      // }
+      }
     });
   }
 
@@ -128,15 +128,12 @@ export class EventsService {
     if (!event.description) {
       throw new Error('Hey, you need a description!');
     }
-
     if (event.starts <= this._today.getTime() || !event.starts) {
       throw new Error('Your event can\'t start today');
     }
-
     if (event.starts > event.ends || !event.ends) {
       throw new Error('You can\'t end in the past');
     }
-
     if (!event.activity) {
       throw new Error('Please select an activity...');
     }
@@ -148,20 +145,30 @@ export class EventsService {
       if (!user) { return callback('You must be signed in to check in to an event', null); }
       this.findById(id).first().subscribe((event: IEvent) => {
         if (!event) { return callback('Sorry, but that event doesn\'t exist!', null); }
-        let error: string;
-        if (event.uid === user.uid) { error = 'You can\'t check in to an event you created!'; }
-        if (event.starts > this._today.getTime()) { error = 'You can\'t check in to an event that hasn\'t started!'; }
-        if (!event.id) { error = 'Whoops! This event doesn\'t seem to exist!'; }
-        callback(error, {
-          activity: event.activity,
-          description: event.description,
-          eventId: id,
-          placeName: event.placeName,
-          placeId: event.placeId,
-          starts: event.starts,
-          uid: user.uid,
-          uname: user.displayName,
-          uphoto: user.photoURL
+        this._ls.coordinates.first().subscribe((userlocation: LatLngLiteral) => {
+          if (this._geoKit.distance(event.coordinates, userlocation) > .5) {
+            return callback('You must be closer to the location of the event to check in!', null);
+          }
+          let error: string;
+          if (event.uid === user.uid) {
+            error = 'You can\'t check in to an event if you are the host!';
+          } else if (event.starts > this._today.getTime()) {
+            error = 'You can\'t check in to an event that hasn\'t started!';
+          } else if ((event.ends < this._today.getTime()) ||
+                    (event.ends < this._today.getTime() + 86400000 && event.starts === event.ends)) {
+            error = 'You can\'t check in to an event that is already over!';
+          }
+          callback(error, {
+            activity: event.activity,
+            description: event.description,
+            eventId: id,
+            placeName: event.placeName,
+            placeId: event.placeId,
+            starts: event.starts,
+            uid: user.uid,
+            uname: user.displayName,
+            uphoto: user.photoURL
+          });
         });
       });
     });
