@@ -7,7 +7,7 @@
     <mat-icon mat-card-avatar (click)="goBack()">arrow_back</mat-icon>
     <mat-card-title (click)="toggle()">{{(place | async)?.name}}</mat-card-title>
   </mat-card-header>
-  <mat-card-content>
+  <mat-card-content (swipeup)="open()" (swipedown)="close()">
     <mat-chip-list>
       <mat-chip *ngFor="let activity of (place | async)?.activities; let i = index" [color]="chipColor(i)" selected="true">{{activity}}</mat-chip>
     </mat-chip-list>
