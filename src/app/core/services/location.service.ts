@@ -20,10 +20,18 @@ export class LocationService {
     return this._coordinates.asObservable();
   }
 
+  /**
+   * Getter for the center location of the map.
+   * @returns Center of the map.
+   */
   get mapCenter(): Observable<LatLngLiteral> {
     return this._mapCenter.asObservable();
   }
 
+  /**
+   * Getter for the update
+   * @returns Updating
+   */
   get updating(): Observable<any> {
     return this._updating.asObservable();
   }
@@ -32,6 +40,9 @@ export class LocationService {
     return this._watching.asObservable();
   }
 
+  /**
+   * 
+   */
   private _getLocation(): void {
     if ((typeof window !== 'undefined') && 'geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((success: any) => {
@@ -43,6 +54,10 @@ export class LocationService {
     }
   }
 
+  /**
+   * Updates the center of the map to target coordinates.
+   * @param coordinates Pair of latitude and longitutde numbers passed in.
+   */
   public updateMapCenter(coordinates: LatLngLiteral): void {
     this._mapCenter.next(coordinates);
   }
@@ -62,6 +77,9 @@ export class LocationService {
     this._updating.next(false);
   }
 
+  /**
+   * f
+   */
   public watchStart(): void {
     if ((typeof window !== 'undefined') && ('geolocation' in navigator) && !this._locationWatch) {
       this._locationWatch = navigator.geolocation.watchPosition((success: any) => {
@@ -75,6 +93,9 @@ export class LocationService {
     }
   }
 
+  /**
+   * 
+   */
   public watchStop(): void {
     if ((typeof window !== 'undefined') && ('geolocation' in navigator) && this._locationWatch) {
       navigator.geolocation.clearWatch(this._locationWatch);

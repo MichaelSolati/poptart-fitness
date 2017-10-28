@@ -18,6 +18,9 @@ interface ICheckinCallback {
   (error: string, result: ICheckin);
 }
 
+/**
+ * A class for the EventsService
+ */
 @Injectable()
 export class EventsService {
   private _dbRef: any;
@@ -27,6 +30,11 @@ export class EventsService {
   private _nearUser: BehaviorSubject<IEvent[]> = new BehaviorSubject<IEvent[]>([]);
   private _today: Date = new Date();
 
+  /**
+   * @param _fbDB Firebase Database instance.
+   * @param _ls LocationService that allows locational querying.
+   * @param _us UserService that provides access the user's profile and related queries.
+   */
   constructor(private _fbDB: AngularFireDatabase, private _ls: LocationService, private _us: UserService) {
     this._dbRef = firebase.database().ref('activeEvents');
     this._geoFire = new GeoFire(this._dbRef);
@@ -39,26 +47,45 @@ export class EventsService {
     });
   }
 
+  /**
+   * Getter for finding the center of the users location.
+   * @returns An array of IEvents.
+   */
   get nearMapCenter(): Observable<IEvent[]> {
     return this._nearMapCenter.asObservable();
   }
 
+  /**
+   * Getter for finding events around the users location.
+   * @returns An Observable array of IEvents.
+   */
   get nearUser(): Observable<IEvent[]> {
     return this._nearUser.asObservable();
   }
 
+  /**
+   * Allows a user to check in to any created events.
+   * @param id 
+   * @param callback Optional field for
+   */
   public checkIn(id: string, callback?: any): void {
     this._validateCheckIn(id, (error: string, success: ICheckin) => {
       if (error) {
         if (callback) { callback(error, null); }
       } else {
-      this._fbDB.list('checkins').push(success).then((result: any) => {
+      this._fbDB.object('checkins/' + (success.eventId + success.uid)).set(success).then((result: any) => {
         if (callback) { callback(null, result); }
       });
       }
     });
   }
 
+  /**
+   * Allows a user to create an event.
+   * @param event 
+   * @param callback 
+   * @returns 
+   */
   public create(event: any, callback?: any): void {
     try {
       this._validate(event);
@@ -76,10 +103,18 @@ export class EventsService {
     });
   }
 
+  /**
+   * Finds an event
+   * @param id Target id to look for while
+   */
   public findById(id: string): Observable<IEvent> {
     return this._fbDB.object('/events/' + id).valueChanges().map((event: IEvent) => ({ $key: id, ...event }));
   }
 
+  /**
+   * Collects
+   * @param id 
+   */
   public findCheckins(id: string): Observable<ICheckin[]> {
     return this._fbDB.list('checkins', (ref: firebase.database.Reference) => {
       return ref.orderByChild('eventId').equalTo(String(id));
@@ -88,6 +123,12 @@ export class EventsService {
     });
   }
 
+  /**
+   * Retrieves a maximum of 100 locations from the database and displays them.
+   * @param coords 
+   * @param radius Size around the viewed location to display location pins.
+   * @param store 
+   */
   private _geoFetch(coords: LatLngLiteral, radius: number, store: BehaviorSubject<IEvent[]>): void {
     const max = 100;
     this._geoFire.query({
@@ -106,7 +147,11 @@ export class EventsService {
     });
   }
 
-
+  /**
+   * Sorts locations by distance nearest to the user.
+   * @param c Input array to sort.
+   * @returns Sorted array by distance.
+   */
   private _quicksort(c: any[]): any[] {
     if (c.length <= 1) { return c; }
     const pivot: any = c.pop();
@@ -116,6 +161,11 @@ export class EventsService {
     return [...this._quicksort(less), pivot, ...this._quicksort(more)];
   }
 
+  /**
+   * 
+   * @param id
+   * @returns Returns an updated
+   */
   public locationEvents(id: string): Observable<IEvent[]> {
     return this._fbDB.list('activeEvents', (ref: firebase.database.Reference) => {
       return ref.orderByChild('placeId').equalTo(String(id));
@@ -124,6 +174,11 @@ export class EventsService {
     });
   }
 
+  /**
+   * Validation for when a user creates an event.
+   * @param event The event that will be passed in for validation.
+   * @returns Returns true if passed event is valid.
+   */
   private _validate(event: IEvent): boolean {
     if (!event.description) {
       throw new Error('Hey, you need a description!');
@@ -140,22 +195,24 @@ export class EventsService {
     return true;
   }
 
+  /**
+   * Validation and error checking for a user's check in action.
+   * @param id Target id to check for validation.
+   * @param callback Returns an error message on failure or an activity object on success
+   */
   private _validateCheckIn(id: string, callback: ICheckinCallback) {
     this._us.user.first().subscribe((user: IUser) => {
       if (!user) { return callback('You must be signed in to check in to an event', null); }
       this.findById(id).first().subscribe((event: IEvent) => {
         if (!event) { return callback('Sorry, but that event doesn\'t exist!', null); }
         this._ls.coordinates.first().subscribe((userlocation: LatLngLiteral) => {
-          if (this._geoKit.distance(event.coordinates, userlocation) > .5) {
+          if (this._geoKit.distance(event.coordinates, userlocation) > 70) {
             return callback('You must be closer to the location of the event to check in!', null);
           }
           let error: string;
-          if (event.uid === user.uid) {
-            error = 'You can\'t check in to an event if you are the host!';
-          } else if (event.starts > this._today.getTime()) {
+          if (event.starts > this._today.getTime()) {
             error = 'You can\'t check in to an event that hasn\'t started!';
-          } else if ((event.ends < this._today.getTime()) ||
-                    (event.ends < this._today.getTime() + 86400000 && event.starts === event.ends)) {
+          } else if (event.ends >= this._today.getTime() + 86400000) {
             error = 'You can\'t check in to an event that is already over!';
           }
           callback(error, {

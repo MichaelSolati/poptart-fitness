@@ -5,7 +5,6 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/first';
 
 import { EventsService, IEvent, IPlace } from '../../core/services';
-import { ActivityRename } from '../../core/pipes/activity-rename.pipe';
 
 /**
  * A class for the CreateEventComponent

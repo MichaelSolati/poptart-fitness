@@ -38,7 +38,7 @@
           <mat-card-title>Activity Tokens</mat-card-title>
           <mat-card-subtitle>Gain points towards activities you attend!</mat-card-subtitle>
           <mat-chip-list fxLayoutAlign="center">
-            <mat-chip *ngFor="let activity of rankActivities((user | async)?.activities); let i = index" [color]="chipColor(i)" selected>{{activity.count}} - {{activity.name}}</mat-chip>
+            <mat-chip *ngFor="let activity of rankActivities((user | async)?.activities); let i = index" [color]="chipColor(i)" selected>{{activity.count}} - {{(activity.name | activity)}}</mat-chip>
           </mat-chip-list>
         </mat-card>
       </div>

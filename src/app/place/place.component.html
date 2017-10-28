@@ -9,7 +9,7 @@
   </mat-card-header>
   <mat-card-content (swipeup)="open()" (swipedown)="close()">
     <mat-chip-list>
-      <mat-chip *ngFor="let activity of (place | async)?.activities; let i = index" [color]="chipColor(i)" selected="true">{{activity}}</mat-chip>
+      <mat-chip *ngFor="let activity of (place | async)?.activities; let i = index" [color]="chipColor(i)" selected="true">{{activity | activity}}</mat-chip>
     </mat-chip-list>
     <div *ngIf="(place | async)?.description">
       <h3>Wikipedia</h3>
