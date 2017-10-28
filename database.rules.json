@@ -1,0 +1,23 @@
+{
+	"rules": {
+		".read": "true",
+		".write": "false",
+		"events": {
+			".write": "auth != null",
+			".indexOn": [ "starts", "placeId", "uid" ]
+		},
+		"activeEvents": {
+			".indexOn": [ "starts", "hash", "placeId" ]
+		},
+		"places": {
+			".indexOn": "hash"
+		},
+		"profiles": {
+			".indexOn": "email"
+		},
+		"checkins": {
+			".write": "auth != null",
+			".indexOn": [ "uid", "eventId" ]
+		}
+	}
+}

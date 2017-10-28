@@ -1,0 +1,11 @@
+{
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "dependencies": {
+    "firebase-admin": "^5.3.0",
+    "firebase-functions": "^0.6.3",
+    "geokit": "0.0.1-dev.20171001T164020000Z.43a3cc4",
+    "request": "^2.83.0"
+  },
+  "private": true
+}

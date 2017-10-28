@@ -1,27 +1,32 @@
-# PoptartFitness
+# Poptart Fitness [![Build Status](https://travis-ci.org/MichaelSolati/poptart-fitness.svg?branch=master)](https://travis-ci.org/MichaelSolati/poptart-fitness)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.3.
+Poptart Fitness invites users to connect and partake in recreational area they may not know exist in Connecticut. Users can schedule and join events, which are displayed on their profile and on a map.
 
-## Development server
+This project is live and available at [https://poptart.fitness](https://poptart.fitness).
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Installing Dependencies
 
-## Code scaffolding
+Run the command `npm install` to obtain all the required project dependancies. 
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+You may need to add two global packages as well: The Angular CLI and Firebase Tools. Both of these can be obtained with the following commands: `npm install -g @angular/cli` and `npm install -g firebase-tools`.
 
-## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+## Firebase Configuration
 
-## Running unit tests
+You will need a Firebase application set up in order to use this app. You can create one on the [Firebase website](https://firebase.com/). After you have created an application, copy the Firebase web configuration into the `environment.ts` and `environment.prod.ts` files, found in `./src/evironments`, as the `firebase` object.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Make sure that the file in the root directory of this project, `.firebaserc` has the `default` (and `dev`) field appropriately set as the ID of your Firebase project.
 
-## Running end-to-end tests
+After you are sure that you have configured this correctly, launch `npm run deploy`, which will deploy your application as well as set up Firebase Functions and Database Rules.
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+To load default data, make a get request to the Firebase Function called `ct`. The url would be `https://us-central1-<APPID>.cloudfunctions.net/ct`.
 
-## Further help
+Finally it is advised that you enable social logins with either Google, Facebook or Twitter. You can set that up at `https://console.firebase.google.com/project/<APPID>/authentication/providers`
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+## Starting App
+To test the application locally, simply run the command `npm run start`.
+
+
+## Documentation
+This documentation is live and available at [https://docs.poptart.fitness](https://docs.poptart.fitness).

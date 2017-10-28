@@ -1,0 +1,27 @@
+<mat-list class="container">
+  <h3 mat-subheader>Nearby {{active}}</h3>
+  <div fxLayout="column" fxLayout.gt-xs="row" fxLayoutWrap>
+    <ng-template ngFor let-item [ngForOf]="items | async">
+      <mat-list-item fxHide.gt-xs="true" [routerLink]="['/', 'place', (item.placeId || item.$key)]" [fragment]="(item.placeId) ? item.$key : null">
+        <h4 mat-line>{{item.name || (item.activity + ' event on ' + (item.starts | date))}}</h4>
+        <p mat-line>{{item.distance | fixed}} miles away</p>
+      </mat-list-item>
+      <mat-divider [fxHide.gt-xs]="true"></mat-divider>
+      <div fxHide.lt-sm="true" fxFlex.gt-xs="50" fxFlex.gt-sm="33" fxFlex.gt-md="25" class="mat-card-padding">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>{{item.name || (item.activity + ' event on ' + (item.starts | date))}}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>{{item.distance | fixed}} miles away</p>
+          </mat-card-content>
+          <mat-card-actions>
+            <a mat-button [routerLink]="['/', 'place', (item.placeId || item.$key)]" [fragment]="(item.placeId) ? item.$key : null">VIEW PLACE</a>
+            <a mat-button [href]="'https://www.google.com/maps/dir/'+(coordsUser | async)?.lat+','+(coordsUser | async)?.lng+'/'+item.coordinates.lat+','+item.coordinates.lng"
+              target="_blank">NAVIGATE TO</a>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </ng-template>
+  </div>
+</mat-list>

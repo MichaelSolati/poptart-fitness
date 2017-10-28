@@ -9,7 +9,13 @@
       "outDir": "dist",
       "assets": [
         "assets",
-        "favicon.ico"
+        "favicon.ico",
+        {
+          "glob": "**/hammer.min.js.map",
+          "input": "../node_modules/hammerjs",
+          "output": "./"
+        },
+        "manifest.json"
       ],
       "index": "index.html",
       "main": "main.ts",
@@ -18,10 +24,17 @@
       "tsconfig": "tsconfig.app.json",
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "pop",
+      "serviceWorker": true,
       "styles": [
-        "styles.sass"
+        "../node_modules/normalizecss/normalize.css",
+        "styles/attributes.scss",
+        "styles/classes.scss",
+        "styles/components.scss",
+        "styles.scss"
       ],
-      "scripts": [],
+      "scripts": [
+        "../node_modules/hammerjs/hammer.min.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
@@ -54,7 +67,7 @@
     }
   },
   "defaults": {
-    "styleExt": "sass",
+    "styleExt": "scss",
     "component": {}
   }
 }

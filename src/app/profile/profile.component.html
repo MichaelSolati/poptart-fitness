@@ -1,0 +1,78 @@
+<mat-toolbar color="primary" class="sticky-header">
+  <button mat-button (click)="goBack()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span>{{(user|async)?.name}}</span>
+</mat-toolbar>
+<section fxLayout="column" fxLayout.gt-xs="row" fxLayoutWrap>
+  <div fxFlex.gt-xs="50" fxFlex.gt-sm="33" fxFlex.gt-md="25" class="padding">
+    <mat-card>
+      <mat-card-title>Your Bio</mat-card-title>
+      <img mat-card-image [src]="(user|async)?.photoURL || ''" alt="Your profile picture.">
+      <mat-card-content class="text-center">
+        <h1>{{(user|async)?.name}}</h1>
+        <h2>{{(user|async)?.rank}}</h2>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div fxFlex.gt-xs="50" fxFlex.gt-sm="66" fxFlex.gt-md="75">
+    <section fxLayout="column" fxLayout.gt-xs="row" fxLayoutWrap>
+      <div fxFlex.gt-md="50" class="padding">
+        <mat-card>
+          <mat-card-title>Badge Showcase</mat-card-title>
+          <mat-card-subtitle>Check your progress towards goalposts</mat-card-subtitle>
+          <mat-card-content class="text-center" fxLayout="row" fxLayoutGap="20px">
+            <div *ngFor="let badge of (user | async)?.badges" fxFlex="33">
+              <p>Badge of {{badge.name}}</p>
+              <mat-progress-bar [value]="badge.progress"></mat-progress-bar>
+              <p>{{badge.progress}}</p>
+              <h5>
+                <i>{{badge.description}}</i>
+              </h5>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div fxFlex.gt-md="50" class="padding">
+        <mat-card>
+          <mat-card-title>Activity Tokens</mat-card-title>
+          <mat-card-subtitle>Gain points towards activities you attend!</mat-card-subtitle>
+          <mat-chip-list fxLayoutAlign="center">
+            <mat-chip *ngFor="let activity of rankActivities((user | async)?.activities); let i = index" [color]="chipColor(i)" selected>{{activity.count}} - {{(activity.name | activity)}}</mat-chip>
+          </mat-chip-list>
+        </mat-card>
+      </div>
+    </section>
+  </div>
+</section>
+
+<section fxLayout="column" fxLayout.gt-xs="row" fxLayoutWrap>
+  <div fxFlex.gt-sm="50" class="padding" *ngIf="(eventsCreated | async)?.length > 0">
+    <mat-card>
+      <mat-card-title>Created Events</mat-card-title>
+      <mat-card-content>
+        <ng-template ngFor let-event let-last="last" [ngForOf]="eventsCreated | async">
+          <mat-list-item [routerLink]="['/', 'place', event.placeId]" [fragment]="event.$key">
+            <h4 mat-line>{{event.placeName}} on {{event.starts | date}}</h4>
+            <p mat-line>{{event.description}}</p>
+          </mat-list-item>
+          <mat-divider *ngIf="!last"></mat-divider>
+        </ng-template>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div fxFlex.gt-sm="50" class="padding" *ngIf="(eventsAttended | async)?.length > 0">
+    <mat-card>
+      <mat-card-title>Attended Events</mat-card-title>
+      <mat-card-content>
+        <ng-template ngFor let-event let-last="last" [ngForOf]="eventsAttended | async">
+          <mat-list-item [routerLink]="['/', 'place', event.placeId]" [fragment]="event.eventId">
+            <h4 mat-line>{{event.placeName}} on {{event.starts | date}}</h4>
+            <p mat-line>{{event.description}}</p>
+          </mat-list-item>
+          <mat-divider *ngIf="!last"></mat-divider>
+        </ng-template>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</section>
