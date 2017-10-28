@@ -5,7 +5,6 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase';
 
 import { IUser } from '../interfaces';
-export { IUser } from '../interfaces';
 
 /**
  * A class for the UserService

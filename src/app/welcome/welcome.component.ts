@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { LocationService } from '../core/services';
 import { Observable } from 'rxjs/Observable';
-import { LatLngLiteral } from '@agm/core';
+
+import { LocationService, LatLngLiteral } from '../core/services';
 
 @Component({
   moduleId: module.id,

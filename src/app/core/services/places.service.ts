@@ -4,14 +4,15 @@ import * as firebase from 'firebase';
 import * as GeoFire from '../classes/geofire.js';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
-import { LatLngLiteral } from '@agm/core';
 import { Geokit } from 'geokit';
 
 import { LocationService } from './location.service';
 
-import { IPlace } from '../interfaces';
-export { IPlace } from '../interfaces';
+import { IPlace, LatLngLiteral } from '../interfaces';
 
+/**
+ * A class for the PlacesService
+ */
 @Injectable()
 export class PlacesService {
   private _dbRef: any;

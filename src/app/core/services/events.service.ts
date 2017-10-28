@@ -9,7 +9,6 @@ import { Geokit } from 'geokit';
 import 'rxjs/add/operator/first';
 
 import { IEvent, ICheckin, IUser } from '../interfaces';
-export { IEvent, ICheckin } from '../interfaces';
 
 import { LocationService } from './location.service';
 import { UserService } from './user.service';

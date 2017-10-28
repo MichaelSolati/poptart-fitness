@@ -4,7 +4,6 @@ import * as firebase from 'firebase';
 import { AngularFireDatabase } from 'angularfire2/database';
 
 import { IProfile, ICheckin, IEvent } from '../interfaces';
-export { IProfile, ICheckin, IEvent } from '../interfaces';
 
 /**
  * A class for the ProfilesService
