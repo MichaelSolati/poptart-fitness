@@ -206,7 +206,7 @@ export class EventsService {
       this.findById(id).first().subscribe((event: IEvent) => {
         if (!event) { return callback('Sorry, but that event doesn\'t exist!', null); }
         this._ls.coordinates.first().subscribe((userlocation: LatLngLiteral) => {
-          if (this._geoKit.distance(event.coordinates, userlocation) > 70) {
+          if (this._geoKit.distance(event.coordinates, userlocation) > 0.5) {
             return callback('You must be closer to the location of the event to check in!', null);
           }
           let error: string;
