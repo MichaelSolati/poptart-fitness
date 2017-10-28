@@ -37,6 +37,7 @@ export class ProfilesService {
   /**
    * Queries all events attended by a user.
    * @param id User's ID.
+   * @returns Changes details in events attended tab.
    */
   private _fetchEventsAttended(id: string): void {
     this._eventsAttended = this._fbDB.list('checkins', (ref: firebase.database.Reference) => {
@@ -49,6 +50,7 @@ export class ProfilesService {
   /**
    * Queries all events created by a user.
    * @param id User's ID.
+   * @returns Changes details in events created tab.
    */
   private _fetchEventsCreated(id: string): void {
     this._eventsCreated = this._fbDB.list('events', (ref: firebase.database.Reference) => {
@@ -61,7 +63,7 @@ export class ProfilesService {
   /**
    * Queries all user's profile while also triggering fetches for their created and attended events.
    * @param id User's ID.
-   * @returns User's profile as observable
+   * @returns User's profile object.
    */
   public findById(id: string): Observable<IProfile> {
     this._fetchEventsAttended(id);
