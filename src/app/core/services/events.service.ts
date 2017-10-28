@@ -102,17 +102,18 @@ export class EventsService {
   }
 
   /**
-   * Finds an event from a given ID
-   * @param id Target id to look for while
-   * @returns 
+   * Searches the database for an event by the id.
+   * @param id ID of a event.
+   * @returns Observable object of a event.
    */
   public findById(id: string): Observable<IEvent> {
     return this._fbDB.object('/events/' + id).valueChanges().map((event: IEvent) => ({ $key: id, ...event }));
   }
 
   /**
-   * Collects
-   * @param id 
+   * Finds all checkins of an event.
+   * @param id ID of event.
+   * @returns Array of checkins as an observable.
    */
   public findCheckins(id: string): Observable<ICheckin[]> {
     return this._fbDB.list('checkins', (ref: firebase.database.Reference) => {
@@ -161,9 +162,9 @@ export class EventsService {
   }
 
   /**
-   * Finds active events
-   * @param id
-   * @returns Returns an updated
+   * Finds active events of a place.
+   * @param id ID of a place.
+   * @returns Active events of a place.
    */
   public locationEvents(id: string): Observable<IEvent[]> {
     return this._fbDB.list('activeEvents', (ref: firebase.database.Reference) => {
@@ -197,7 +198,7 @@ export class EventsService {
   /**
    * Validation and error checking for a user's check in action.
    * @param id Target id to check for validation.
-   * @param callback Returns an error message on failure or an activity object on success
+   * @param callback Returns an error message on failure or an activity object on success.
    */
   private _validateCheckIn(id: string, callback: ICheckinCallback) {
     this._us.user.first().subscribe((user: IUser) => {
