@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
-import { LatLngLiteral } from 'geokit';
-export { LatLngLiteral } from 'geokit';
 
+import { LatLngLiteral } from '../interfaces';
+
+/**
+ * A class for the LocationService
+ */
 @Injectable()
 export class LocationService {
   private _coordinates: BehaviorSubject<LatLngLiteral> = new BehaviorSubject<LatLngLiteral>({ lat: 0, lng: 0 });
@@ -17,8 +20,8 @@ export class LocationService {
   }
 
   /**
-   * Getter for coordinates
-   * @returns Coordinates
+   * Getter for current coordinates for user.
+   * @returns Users location.
    */
   get coordinates(): Observable<LatLngLiteral> {
     return this._coordinates.asObservable();
@@ -26,30 +29,30 @@ export class LocationService {
 
   /**
    * Getter for the center location of the map.
-   * @returns Center of the map.
+   * @returns Coordinates of the center of the map.
    */
   get mapCenter(): Observable<LatLngLiteral> {
     return this._mapCenter.asObservable();
   }
 
   /**
-   * Getter for the update
-   * @returns Observable
+   * Getter for boolean flag if center of map is being updated to current location.
+   * @returns Boolean flag.
    */
-  get updating(): Observable<any> {
+  get updating(): Observable<boolean> {
     return this._updating.asObservable();
   }
 
   /**
-   * Getter for
-   * @returns Observable
+   * Getter for if Navigator.geolocation is being watched.
+   * @returns Boolean flag.
    */
-  get watching(): Observable<any> {
+  get watching(): Observable<boolean> {
     return this._watching.asObservable();
   }
 
   /**
-   * Retrieves the 
+   * One time retrieval of location from Navigator.geolocation, triggers a watch of Navigator.geolocation on success.
    */
   private _getLocation(): void {
     if ((typeof window !== 'undefined') && 'geolocation' in navigator) {
@@ -86,7 +89,7 @@ export class LocationService {
   }
 
   /**
-   * Watches for geocoordinates from device and updates observables with coordinates.
+   * Watches for geocoordinates from Navigator.geolocation and updates observables with coordinates.
    */
   public watchStart(): void {
     if ((typeof window !== 'undefined') && ('geolocation' in navigator) && !this._locationWatch) {
@@ -102,7 +105,7 @@ export class LocationService {
   }
 
   /**
-   * Stops the watching of geocoordinates from window.
+   * Stops the watching of geocoordinates from Navigator.geolocation.
    */
   public watchStop(): void {
     if ((typeof window !== 'undefined') && ('geolocation' in navigator) && this._locationWatch) {
