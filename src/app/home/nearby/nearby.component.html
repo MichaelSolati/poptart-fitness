@@ -17,6 +17,8 @@
           </mat-card-content>
           <mat-card-actions>
             <a mat-button [routerLink]="['/', 'place', (item.placeId || item.$key)]" [fragment]="(item.placeId) ? item.$key : null">VIEW PLACE</a>
+            <a mat-button [href]="'https://www.google.com/maps/dir/'+(coordsUser | async)?.lat+','+(coordsUser | async)?.lng+'/'+item.coordinates.lat+','+item.coordinates.lng"
+              target="_blank">NAVIGATE TO</a>
           </mat-card-actions>
         </mat-card>
       </div>

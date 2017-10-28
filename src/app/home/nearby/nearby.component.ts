@@ -2,7 +2,7 @@ import { Component, OnInit, Input, ApplicationRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
-import { EventsService, PlacesService } from '../../core/services';
+import { EventsService, PlacesService, LocationService, LatLngLiteral } from '../../core/services';
 
 /**
  * A class for the NearbyComponent
@@ -32,12 +32,16 @@ export class NearbyComponent implements OnInit {
 
   /**
    * @param _es EventsService to get all events near center of map.
-   * @param _ps PacesService to query places near center of map.
+   * @param _ls LocationService to keep track of user's location and center of map.
+   * @param _ps PlacesService to query places near center of map.
    */
-  constructor(private _es: EventsService, private _ps: PlacesService) {
+  constructor(private _es: EventsService, private _ls: LocationService, private _ps: PlacesService) {
     this._items = this._ps.nearUser;
   }
 
+  /**
+   * Lifecycle hook that is called after data-bound properties of a directive are initialized.
+   */
   ngOnInit() {
   }
 
@@ -47,6 +51,14 @@ export class NearbyComponent implements OnInit {
    */
   get active(): string {
     return this._active;
+  }
+
+  /**
+   * Get function for LatLngLiteral of user's location.
+   * @returns Observable of user's location as LatLngLiteral.
+   */
+  get coordsUser(): Observable<LatLngLiteral> {
+    return this._ls.coordinates;
   }
 
   /**

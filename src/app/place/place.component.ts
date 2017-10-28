@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import 'rxjs/add/operator/first';
 
-import { EventsService, PlacesService, UserService, IEvent, IPlace } from '../core/services';
+import { EventsService, PlacesService, UserService, LocationService, IEvent, IPlace, IUser, LatLngLiteral } from '../core/services';
 
 import { CreateEventComponent } from './create-event/create-event.component';
 import { ViewEventComponent } from './view-event/view-event.component';
@@ -30,12 +30,13 @@ export class PlaceComponent implements OnInit, OnDestroy {
    * @param _dialog Service to open Material Design modal dialogs.
    * @param _es EventsService to get all events at place in the route params.
    * @param _location Location is a service that applications can use to interact with a browser's URL.
+   * @param _ls LocationService to keep track of user's location and center of map.
    * @param _ps PacesService to query place in route params.
    * @param _route Contains the information about a route associated with a component loaded in an outlet.
    * @param _us User service for information about current user.
    */
   constructor(
-    private _dialog: MatDialog, private _es: EventsService, private _location: Location,
+    private _dialog: MatDialog, private _es: EventsService, private _location: Location, private _ls: LocationService,
     private _ps: PlacesService, private _route: ActivatedRoute, private _us: UserService
   ) { }
 
@@ -68,6 +69,14 @@ export class PlaceComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Get function for LatLngLiteral of user's location.
+   * @returns Observable of user's location as LatLngLiteral.
+   */
+  get coordsUser(): Observable<LatLngLiteral> {
+    return this._ls.coordinates;
+  }
+
+  /**
    * Get function for events observable.
    * @returns Observable of events.
    */
@@ -87,7 +96,7 @@ export class PlaceComponent implements OnInit, OnDestroy {
    * Get function for place observable.
    * @returns Observable of place.
    */
-  get place(): Observable<any> {
+  get place(): Observable<IPlace> {
     return this._place;
   }
 
@@ -95,7 +104,7 @@ export class PlaceComponent implements OnInit, OnDestroy {
    * Get function for user profile observable.
    * @returns Observable of users profile.
    */
-  get user(): Observable<any> {
+  get user(): Observable<IUser> {
     return this._us.user;
   }
 
