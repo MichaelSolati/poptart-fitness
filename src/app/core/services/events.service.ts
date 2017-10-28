@@ -64,7 +64,7 @@ export class EventsService {
 
   /**
    * Allows a user to check in to any created events.
-   * @param id 
+   * @param id Event ID to pass in and attempt to check in to.
    * @param callback Optional field for callback function.
    */
   public checkIn(id: string, callback?: any): void {
@@ -83,7 +83,6 @@ export class EventsService {
    * Allows a user to create an event.
    * @param event Event that is passed for validation.
    * @param callback Optional field for callback function.
-   * @returns 
    */
   public create(event: any, callback?: any): void {
     try {
@@ -103,8 +102,9 @@ export class EventsService {
   }
 
   /**
-   * Finds an event
+   * Finds an event from a given ID
    * @param id Target id to look for while
+   * @returns 
    */
   public findById(id: string): Observable<IEvent> {
     return this._fbDB.object('/events/' + id).valueChanges().map((event: IEvent) => ({ $key: id, ...event }));
@@ -161,7 +161,7 @@ export class EventsService {
   }
 
   /**
-   * 
+   * Finds active events
    * @param id
    * @returns Returns an updated
    */
