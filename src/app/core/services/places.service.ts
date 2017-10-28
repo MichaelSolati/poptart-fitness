@@ -21,6 +21,10 @@ export class PlacesService {
   private _nearMapCenter: BehaviorSubject<IPlace[]> = new BehaviorSubject<IPlace[]>([]);
   private _nearUser: BehaviorSubject<IPlace[]> = new BehaviorSubject<IPlace[]>([]);
 
+  /**
+   * @param _fbDB Firebase Database instance.
+   * @param _ls LocationService that allows locational querying.
+   */
   constructor(private _fbDB: AngularFireDatabase, private _ls: LocationService) {
     this._dbRef = firebase.database().ref('places');
     this._geoFire = new GeoFire(this._dbRef);
@@ -50,14 +54,20 @@ export class PlacesService {
   }
 
   /**
-   * Searches the database for 
-   * @param id 
-   * @returns 
+   * Searches the database for a place by the id.
+   * @param id ID of a place.
+   * @returns Observable object of a place.
    */
   public findById(id: string): Observable<IPlace> {
     return this._fbDB.object('/places/' + id).valueChanges().map((event: IPlace) => ({ $key: id, ...event }));
   }
 
+  /**
+   * Retrieves a maximum of 100 locations from the database and displays them.
+   * @param coords Coordinates to search around location.
+   * @param radius Size around the coordinates to display location pins (in kilometers).
+   * @param store Data store to update.
+   */
   private _geoFetch(coords: LatLngLiteral, radius: number, store: BehaviorSubject<IPlace[]>): void {
     const max = 100;
     this._geoFire.query({
@@ -76,9 +86,9 @@ export class PlacesService {
   }
 
   /**
-   * Sorting algorithm that arranges locations by distance from the user.
-   * @param c Array of places to sort.
-   * @returns
+   * Sorts locations by distance nearest to the user.
+   * @param c Input array to sort.
+   * @returns Sorted array by distance.
    */
   private _quicksort(c: IPlace[]): IPlace[] {
     if (c.length <= 1) { return c; }
