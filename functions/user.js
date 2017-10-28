@@ -15,6 +15,10 @@ const badges = [{
   description: 'Everyone wants to go to the party, and the party is wherever you are!'
 }]
 
+/**
+ * Creates profile for new user onCreate of user account.
+ * @param {any} event - Event that triggered the onCreate hook.
+ */
 exports.user = functions.auth.user().onCreate((event) => {
   const profiles = admin.database().ref('/profiles');
   const profile = {

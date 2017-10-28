@@ -4,6 +4,11 @@ const Geokit = require('geokit').Geokit;
 const httpRequire = require('request');
 const geokit = new Geokit();
 
+/**
+ * Fetches data from state of Connecticut, parses it, and adds it to the database.
+ * @param {any} request - HTTP request data.
+ * @param {any} response - Function to send response to client.
+ */
 exports.ct = functions.https.onRequest((request, response) => {
   const places = admin.database().ref('/places');
   places.remove().then(() => {
@@ -34,6 +39,10 @@ exports.ct = functions.https.onRequest((request, response) => {
   });
 });
 
+/**
+ * On creation of a place, fetches Wikipedia for summary and adds it to place.
+ * @param {any} event - Event that triggered the onCreate hook.
+ */
 exports.wikipedia = functions.database.ref('/places/{placeId}').onCreate((event) => {
   const places = admin.database().ref('/places');
   const place = event.data.val();

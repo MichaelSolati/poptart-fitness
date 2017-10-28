@@ -1,6 +1,10 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 
+/**
+ * Clones event into active events collection.
+ * @param {any} event - Event that triggered the onCreate hook.
+ */
 exports.activeEvents = functions.database.ref('/events/{eventId}').onCreate((event) => {
   const profiles = admin.database().ref('/profiles');
   const activeEvents = admin.database().ref('activeEvents');
@@ -16,6 +20,10 @@ exports.activeEvents = functions.database.ref('/events/{eventId}').onCreate((eve
   });
 });
 
+/**
+ * Increments leadership badge of user who creates an event.
+ * @param {any} event - Event that triggered the onCreate hook.
+ */
 exports.createEvent = functions.database.ref('/events/{eventId}').onCreate((event) => {
   const events = admin.database().ref('events');
   const profiles = admin.database().ref('/profiles');
@@ -37,6 +45,11 @@ exports.createEvent = functions.database.ref('/events/{eventId}').onCreate((even
   });
 });
 
+/**
+ * Removes all active events that have already occurred.
+ * @param {any} request - HTTP request data.
+ * @param {any} response - Function to send response to client.
+ */
 exports.purgeActiveEvents = functions.https.onRequest((request, response) => {
   const activeEvents = admin.database().ref('activeEvents');
   let now = new Date();
@@ -55,6 +68,10 @@ exports.purgeActiveEvents = functions.https.onRequest((request, response) => {
   });
 });
 
+/**
+ * Validates check in of an event, then updates user's profile based on their checkin.
+ * @param {any} event - Event that triggered the onCreate hook.
+ */
 exports.checkins = functions.database.ref('/checkins/{checkinId}').onCreate((event) => {
   const checkin = event.data.val();
   const profiles = admin.database().ref('/profiles');
@@ -95,6 +112,10 @@ exports.checkins = functions.database.ref('/checkins/{checkinId}').onCreate((eve
   });
 });
 
+/**
+ * Increments popularity badge of event creator when someone checks into their event.
+ * @param {any} event - Event that triggered the onCreate hook.
+ */
 exports.popularity = functions.database.ref('/checkins/{checkinId}').onCreate((event) => {
   const checkin = event.data.val();
   const checkinId = event.params.checkinId;
