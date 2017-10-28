@@ -32,14 +32,27 @@ export class PlacesService {
     });
   }
 
+  /**
+   * Getter for places near the center of the map.
+   * @returns An array of Places.
+   */
   get nearMapCenter(): Observable<IPlace[]> {
     return this._nearMapCenter.asObservable();
   }
 
+  /**
+   * Getter for places near the user on the map.
+   * @returns An array of Places.
+   */
   get nearUser(): Observable<IPlace[]> {
     return this._nearUser.asObservable();
   }
 
+  /**
+   * Searches the database for 
+   * @param id 
+   * @returns 
+   */
   public findById(id: string): Observable<IPlace> {
     return this._fbDB.object('/places/' + id).valueChanges().map((event: IPlace) => ({ $key: id, ...event }));
   }
@@ -61,6 +74,11 @@ export class PlacesService {
     });
   }
 
+  /**
+   * Sorting algorithm that arranges locations by distance from the user.
+   * @param c Array of places to sort.
+   * @returns
+   */
   private _quicksort(c: IPlace[]): IPlace[] {
     if (c.length <= 1) { return c; }
     const pivot: IPlace = c.pop();

@@ -66,7 +66,7 @@ export class EventsService {
   /**
    * Allows a user to check in to any created events.
    * @param id 
-   * @param callback Optional field for
+   * @param callback Optional field for callback function.
    */
   public checkIn(id: string, callback?: any): void {
     this._validateCheckIn(id, (error: string, success: ICheckin) => {
@@ -82,8 +82,8 @@ export class EventsService {
 
   /**
    * Allows a user to create an event.
-   * @param event 
-   * @param callback 
+   * @param event Event that is passed for validation.
+   * @param callback Optional field for callback function.
    * @returns 
    */
   public create(event: any, callback?: any): void {
@@ -125,9 +125,9 @@ export class EventsService {
 
   /**
    * Retrieves a maximum of 100 locations from the database and displays them.
-   * @param coords 
-   * @param radius Size around the viewed location to display location pins.
-   * @param store 
+   * @param coords Coordinates to search around location.
+   * @param radius Size around the coordinates to display location pins (in kilometers).
+   * @param store Data store to update.
    */
   private _geoFetch(coords: LatLngLiteral, radius: number, store: BehaviorSubject<IEvent[]>): void {
     const max = 100;

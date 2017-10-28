@@ -16,6 +16,10 @@ export class LocationService {
     this._getLocation();
   }
 
+  /**
+   * Getter for coordinates
+   * @returns Coordinates
+   */
   get coordinates(): Observable<LatLngLiteral> {
     return this._coordinates.asObservable();
   }
@@ -30,18 +34,22 @@ export class LocationService {
 
   /**
    * Getter for the update
-   * @returns Updating
+   * @returns Observable
    */
   get updating(): Observable<any> {
     return this._updating.asObservable();
   }
 
+  /**
+   * Getter for
+   * @returns Observable
+   */
   get watching(): Observable<any> {
     return this._watching.asObservable();
   }
 
   /**
-   * 
+   * Retrieves the 
    */
   private _getLocation(): void {
     if ((typeof window !== 'undefined') && 'geolocation' in navigator) {
@@ -78,7 +86,7 @@ export class LocationService {
   }
 
   /**
-   * f
+   * Watches for geocoordinates from device and updates observables with coordinates.
    */
   public watchStart(): void {
     if ((typeof window !== 'undefined') && ('geolocation' in navigator) && !this._locationWatch) {
@@ -94,7 +102,7 @@ export class LocationService {
   }
 
   /**
-   * 
+   * Stops the watching of geocoordinates from window.
    */
   public watchStop(): void {
     if ((typeof window !== 'undefined') && ('geolocation' in navigator) && this._locationWatch) {
